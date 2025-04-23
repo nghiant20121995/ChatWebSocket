@@ -7,8 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ChatWebSocket.Services\ChatWebSocket.Services.csproj" />
     <ProjectReference Include="..\ChatWebSocketHelper\ChatWebSocket.Helper.csproj" />
-    <ProjectReference Include="..\WebSocket.Domain\ChatWebSocket.Domain.csproj" />
+    <ProjectReference Include="..\ChatWebSocket.Domain\ChatWebSocket.Domain.csproj" />
   </ItemGroup>
 
 </Project>

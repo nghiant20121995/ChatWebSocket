@@ -1,20 +1,21 @@
-using ChatWebSocket.Helper;
+using ChatWebSocket.Domain.Interfaces.Services;
+using ChatWebSocket.Services;
 using ChatWebSocketHelper;
 using System.Net.WebSockets;
-using System.Security.Cryptography;
 var builder = WebApplication.CreateBuilder(args);
-//builder.Services.AddScoped<>
+builder.Services.AddScoped<IUserService, UserService>();
 var app = builder.Build();
 app.LoadSecretKey();
 app.UseWebSockets();
+app.MapWebSocket();
 
 app.Map("/ws", async context =>
 {
     if (context.WebSockets.IsWebSocketRequest)
     {
         string? token = context.Request.Query["token"];
+        JwtHandler.ValidateToken(token);
         using WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-        Console.WriteLine("WebSocket connected!" + webSocket.ToString());
 
         var buffer = new byte[1024 * 16];
 
@@ -28,6 +29,7 @@ app.Map("/ws", async context =>
                 {
                     Console.WriteLine("WebSocket closed.");
                     await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Bye", CancellationToken.None);
+                    
                 }
                 else
                 {
@@ -61,14 +63,6 @@ app.Map("/ws", async context =>
     {
         context.Response.StatusCode = 400;
     }
-});
-
-app.Map("/login", async (HttpContext context, IConfiguration configuration) =>
-{
-    var jwtSection = configuration.GetSection("Jwt");
-    var privateKey = File.ReadAllText(jwtSection.GetValue<string>("PrivateKeyPath") ?? "");
-    var exp = DateTime.UtcNow.AddDays(jwtSection.GetValue<int>("DayDuration"));
-    var jwtToken = JwtHandler.GenerateToken("nghiant", privateKey, exp, jwtSection.GetValue<string>("Issuer"), jwtSection.GetValue<string>("Audience"));
 });
 
 await app.RunAsync();
