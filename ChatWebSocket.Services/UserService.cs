@@ -15,7 +15,8 @@ namespace ChatWebSocket.Services
         }
         public async Task<string> LoginAsync(string username, string password)
         {
-            return JwtHandler.GenerateToken(username, privateKey, expireAt, issuer, audience);
+            return string.Empty;
+            //return JwtHandler.GenerateToken(username, privateKey, expireAt, issuer, audience);
         }
     }
 }

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Amazon.DynamoDBv2.DataModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ChatWebSocket.Domain.Entities
 {
+    [DynamoDBTable("User")]
     public class User : BaseEntity
     {
         public string UserName { get; set; }

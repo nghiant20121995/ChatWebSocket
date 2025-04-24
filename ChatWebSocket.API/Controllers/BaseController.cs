@@ -12,11 +12,5 @@ namespace ChatWebSocket.API.Controllers
         {
             _logger = logger;
         }
-
-        [HttpPost(Name = "PostLogin")]
-        public IEnumerable<WeatherForecast> Post()
-        {
-
-        }
     }
 }

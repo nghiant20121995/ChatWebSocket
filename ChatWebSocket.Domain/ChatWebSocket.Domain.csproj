@@ -8,7 +8,10 @@
     <Folder Include="Enum\" />
     <Folder Include="Interfaces\Provider\" />
     <Folder Include="RequestModel\" />
-    <Folder Include="Response\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.406.25" />
   </ItemGroup>
 
 </Project>

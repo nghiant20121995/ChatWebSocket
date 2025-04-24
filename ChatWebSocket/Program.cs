@@ -1,20 +1,45 @@
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using ChatWebSocket.Domain.Interfaces.Services;
 using ChatWebSocket.Services;
+using ChatWebSocket.Services.Extensions;
 using ChatWebSocketHelper;
 using System.Net.WebSockets;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSingleton<IAmazonDynamoDB>(sp =>
+{
+    var config = new AmazonDynamoDBConfig
+    {
+        ServiceURL = "http://localhost:9000", // for local DynamoDB
+    };
+
+    return new AmazonDynamoDBClient(
+        new Amazon.Runtime.BasicAWSCredentials("gmjfj", "e65lqb"),
+        config
+    );
+});
+
+builder.Services.AddSingleton<IDynamoDBContext, DynamoDBContext>();
+
+builder.Services.AddControllers();
+
 var app = builder.Build();
 app.LoadSecretKey();
 app.UseWebSockets();
-app.MapWebSocket();
+
+app.UseExceptionHandler(builder =>
+{
+    builder.UseGlobalExceptionProcess();
+});
+
 
 app.Map("/ws", async context =>
 {
     if (context.WebSockets.IsWebSocketRequest)
     {
         string? token = context.Request.Query["token"];
-        JwtHandler.ValidateToken(token);
+        //JwtHandler.ValidateToken(token);
         using WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
 
         var buffer = new byte[1024 * 16];
@@ -29,7 +54,7 @@ app.Map("/ws", async context =>
                 {
                     Console.WriteLine("WebSocket closed.");
                     await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Bye", CancellationToken.None);
-                    
+
                 }
                 else
                 {
@@ -64,5 +89,7 @@ app.Map("/ws", async context =>
         context.Response.StatusCode = 400;
     }
 });
+
+app.MapControllers();
 
 await app.RunAsync();
