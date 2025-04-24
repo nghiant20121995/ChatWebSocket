@@ -11,11 +11,11 @@ builder.Services.AddSingleton<IAmazonDynamoDB>(sp =>
 {
     var config = new AmazonDynamoDBConfig
     {
-        ServiceURL = "http://localhost:9000", // for local DynamoDB
+        ServiceURL = "http://localhost:8000", // for local DynamoDB
     };
 
     return new AmazonDynamoDBClient(
-        new Amazon.Runtime.BasicAWSCredentials("gmjfj", "e65lqb"),
+        new Amazon.Runtime.BasicAWSCredentials("m7dyaj", "tyfop7"),
         config
     );
 });

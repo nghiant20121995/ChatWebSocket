@@ -1,5 +1,7 @@
-﻿using Amazon.DynamoDBv2.DataModel;
+﻿using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
+using Amazon.DynamoDBv2.Model;
 using ChatWebSocket.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
@@ -12,19 +14,34 @@ namespace ChatWebSocket.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IDynamoDBContext _context;
-        public LoginController(IDynamoDBContext dynamoDBContext) : base() {
+        private readonly IAmazonDynamoDB _amazonDynamoDB;
+
+        public LoginController(IDynamoDBContext dynamoDBContext, IAmazonDynamoDB amazonDynamoDB) : base()
+        {
             _context = dynamoDBContext;
+            _amazonDynamoDB = amazonDynamoDB;
         }
         [HttpPost(Name = "LoginPost")]
         public async Task<bool> Post(LoginRequest req)
         {
             try
             {
-                await _context.SaveAsync(new User
-                {
-                    UserName = "john123",
-                    Email = "john@example.com"
-                });
+                //var lsTbl = await _amazonDynamoDB.ListTablesAsync();
+
+                //await _amazonDynamoDB.CreateTableAsync(new CreateTableRequest
+                //{
+                //    TableName = "User",
+                //    KeySchema = new List<KeySchemaElement>
+                //    {
+                //        new KeySchemaElement("Id", KeyType.HASH)
+                //    },
+                //    AttributeDefinitions = new List<AttributeDefinition>
+                //    {
+                //        new AttributeDefinition("Id", ScalarAttributeType.S)
+                //    },
+                //    ProvisionedThroughput = new ProvisionedThroughput(5, 5)
+                //});
+
 
                 var conditions = new List<ScanCondition>
                 {
