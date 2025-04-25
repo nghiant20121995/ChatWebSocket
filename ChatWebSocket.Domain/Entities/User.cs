@@ -5,13 +5,14 @@ using System.Text;
 
 namespace ChatWebSocket.Domain.Entities
 {
-    [DynamoDBTable("User")]
+    [DynamoDBTable("Users")]
     public class User : BaseEntity
     {
         public string UserName { get; set; }
         public string FullName { get; set; }
         public string Avatar { get; set; }
         public string PhoneNumber { get; set; }
+        [DynamoDBGlobalSecondaryIndexHashKey]
         public string Email { get; set; }
     }
 }

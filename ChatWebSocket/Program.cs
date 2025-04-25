@@ -1,32 +1,23 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using ChatWebSocket.Domain.Interfaces.Services;
+using ChatWebSocket.Helper;
+using ChatWebSocket.Middlewares;
 using ChatWebSocket.Services;
 using ChatWebSocket.Services.Extensions;
 using ChatWebSocketHelper;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.WebSockets;
+using System.Text;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddSingleton<IAmazonDynamoDB>(sp =>
-{
-    var config = new AmazonDynamoDBConfig
-    {
-        ServiceURL = "http://localhost:8000", // for local DynamoDB
-    };
-
-    return new AmazonDynamoDBClient(
-        new Amazon.Runtime.BasicAWSCredentials("m7dyaj", "tyfop7"),
-        config
-    );
-});
-
-builder.Services.AddSingleton<IDynamoDBContext, DynamoDBContext>();
-
+AppServiceConfig.Initialize(builder.Configuration);
+builder.LoadSecretKey();
+builder.ConfigServices();
 builder.Services.AddControllers();
 
 var app = builder.Build();
-app.LoadSecretKey();
 app.UseWebSockets();
+
 
 app.UseExceptionHandler(builder =>
 {
@@ -34,13 +25,24 @@ app.UseExceptionHandler(builder =>
 });
 
 
-app.Map("/ws", async context =>
+app.Map("/ws", wsApp =>
 {
-    if (context.WebSockets.IsWebSocketRequest)
+    wsApp.UseMiddleware<WebSocketAuthenticate>();
+    wsApp.Run(async context =>
     {
+        var userService = context.RequestServices.GetService<IUserService>();
         string? token = context.Request.Query["token"];
-        //JwtHandler.ValidateToken(token);
+
+        var handler = new JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(token);
+        var email = jwtToken.Claims.FirstOrDefault(e => e.Type.Equals("Email"));
+        if (email == null) throw new Exception("User is not found");
+
+        var currentUser = await userService!.GetByEmailAsync(email.Value);
+        if (currentUser == null) throw new Exception("User doesn't exist");
         using WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+
+        WebSocketConnectionManager.AddSocket(webSocket, currentUser.Id);
 
         var buffer = new byte[1024 * 16];
 
@@ -54,12 +56,13 @@ app.Map("/ws", async context =>
                 {
                     Console.WriteLine("WebSocket closed.");
                     await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Bye", CancellationToken.None);
+                    WebSocketConnectionManager.RemoveSocket(webSocket, currentUser.Id);
 
                 }
                 else
                 {
                     //var lsMsg = new List<string>();
-                    //var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                    var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
                     //lsMsg.Add(message);
                     //var json = JsonSerializer.Serialize(lsMsg);
                     //var responseMessage = Encoding.UTF8.GetBytes(json);
@@ -83,11 +86,7 @@ app.Map("/ws", async context =>
                 Console.WriteLine(ex.StackTrace);
             }
         }
-    }
-    else
-    {
-        context.Response.StatusCode = 400;
-    }
+    });
 });
 
 app.MapControllers();

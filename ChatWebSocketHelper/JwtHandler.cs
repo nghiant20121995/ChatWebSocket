@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -13,15 +14,15 @@ namespace ChatWebSocketHelper
 {
     public static class JwtHandler
     {
-        public static string GenerateToken(string username, string secretKey, DateTime expAt, string issuer, string audience)
+        public static string GenerateToken(string email, string secretKey, DateTime expAt, string issuer, string audience)
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, username),
+                new Claim("Email", email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            using var rsa = RSA.Create();
+            var rsa = RSA.Create();
             rsa.ImportFromPem(secretKey);
 
             var key = new RsaSecurityKey(rsa);
@@ -34,7 +35,40 @@ namespace ChatWebSocketHelper
                 expires: expAt,
                 signingCredentials: creds);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var newToken = new JwtSecurityTokenHandler().WriteToken(token);
+            return newToken;
+        }
+
+        public static bool ValidateToken(string token, string publicKey, string issuer, string audience)
+        {
+            // 1. Load your public key
+            var rsa = RSA.Create();
+            rsa.ImportFromPem(publicKey);
+
+            var key = new RsaSecurityKey(rsa);
+
+            // 2. Configure validation parameters
+            var validationParams = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = issuer,
+
+                ValidateAudience = true,
+                ValidAudience = audience,
+
+                ValidateLifetime = true, // optional: verify expiration
+                RequireExpirationTime = true,
+
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = key,
+
+                ClockSkew = TimeSpan.FromMinutes(1) // optional: token lifetime leeway
+            };
+
+            // 3. Validate the token
+            var handler = new JwtSecurityTokenHandler();
+            ClaimsPrincipal principal = handler.ValidateToken(token, validationParams, out SecurityToken validatedToken);
+            return principal != null && validatedToken != null;
         }
 
         public static string ExportPrivateKeyPem(RSA rsa)
@@ -49,25 +83,6 @@ namespace ChatWebSocketHelper
             var publicKeyBytes = rsa.ExportSubjectPublicKeyInfo();
             var base64 = Convert.ToBase64String(publicKeyBytes, Base64FormattingOptions.InsertLineBreaks);
             return $"-----BEGIN PRIVATE KEY-----\n{base64}\n-----END PRIVATE KEY-----";
-        }
-
-        public static void LoadSecretKey(this IApplicationBuilder app)
-        {
-            var configuration = app.ApplicationServices.GetRequiredService<IConfiguration>();
-            var jwtSection = configuration.GetSection("Jwt");
-            if (jwtSection != null)
-            {
-                var privateKey = File.ReadAllText(jwtSection?.GetSection("PrivateKeyPath")?.Value ?? string.Empty);
-                if (!string.IsNullOrEmpty(privateKey))
-                {
-                    configuration["Jwt:PrivateKey"] = privateKey;
-                }
-                var publicKey = File.ReadAllText(jwtSection?.GetSection("PublicKeyPath")?.Value ?? string.Empty);
-                if (!string.IsNullOrEmpty(publicKey))
-                {
-                    configuration["Jwt:PublicKey"] = publicKey;
-                }
-            }
         }
     }
 }

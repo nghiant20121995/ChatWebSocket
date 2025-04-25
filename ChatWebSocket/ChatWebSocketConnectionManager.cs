@@ -1,4 +1,5 @@
-﻿using System.Net.WebSockets;
+﻿using System.Net.Sockets;
+using System.Net.WebSockets;
 public static class WebSocketConnectionManager
 {
     private static readonly object lockObj = new object();
@@ -8,7 +9,6 @@ public static class WebSocketConnectionManager
     {
         lock (lockObj)
         {
-            var webSocketId = Guid.NewGuid().ToString();
             if (_sockets.ContainsKey(userId))
             {  
                 _sockets[userId].Add(socket);
@@ -32,8 +32,14 @@ public static class WebSocketConnectionManager
     //    return socket;
     //}
 
-    //public static void RemoveSocket(string id)
-    //{
-    //    _sockets.TryRemove(id, out _);
-    //}
+    public static void RemoveSocket(WebSocket webSocket, string userId)
+    {
+        lock (lockObj)
+        {
+            if (_sockets.ContainsKey(userId))
+            {
+                _sockets[userId].Remove(webSocket);
+            }
+        }
+    }
 }

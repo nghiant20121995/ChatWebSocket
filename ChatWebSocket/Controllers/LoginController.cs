@@ -1,10 +1,6 @@
-﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
-using Amazon.DynamoDBv2.DocumentModel;
-using Amazon.DynamoDBv2.Model;
-using ChatWebSocket.Domain.Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.Data;
+﻿using ChatWebSocket.Domain.Interfaces.Services;
+using ChatWebSocket.Domain.RequestModel;
+using ChatWebSocket.Domain.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatWebSocket.Controllers
@@ -13,48 +9,19 @@ namespace ChatWebSocket.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly IDynamoDBContext _context;
-        private readonly IAmazonDynamoDB _amazonDynamoDB;
+        private readonly IUserService _userService;
+        private readonly IConfiguration _configuration;
 
-        public LoginController(IDynamoDBContext dynamoDBContext, IAmazonDynamoDB amazonDynamoDB) : base()
+        public LoginController(IUserService userService, IConfiguration configuration) : base()
         {
-            _context = dynamoDBContext;
-            _amazonDynamoDB = amazonDynamoDB;
+            _configuration = configuration;
+            _userService = userService;
         }
         [HttpPost(Name = "LoginPost")]
-        public async Task<bool> Post(LoginRequest req)
+        public async Task<LoginResponse> Post(LoginReq req)
         {
-            try
-            {
-                //var lsTbl = await _amazonDynamoDB.ListTablesAsync();
-
-                //await _amazonDynamoDB.CreateTableAsync(new CreateTableRequest
-                //{
-                //    TableName = "User",
-                //    KeySchema = new List<KeySchemaElement>
-                //    {
-                //        new KeySchemaElement("Id", KeyType.HASH)
-                //    },
-                //    AttributeDefinitions = new List<AttributeDefinition>
-                //    {
-                //        new AttributeDefinition("Id", ScalarAttributeType.S)
-                //    },
-                //    ProvisionedThroughput = new ProvisionedThroughput(5, 5)
-                //});
-
-
-                var conditions = new List<ScanCondition>
-                {
-                    new ScanCondition("Email", ScanOperator.Equal, req.Email)
-                };
-                var response = await _context.ScanAsync<User>(conditions).GetNextSetAsync();
-                return true;
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            var userToken = await _userService.LoginAsync(req);
+            return userToken;
         }
     }
 }

@@ -7,7 +7,6 @@
   <ItemGroup>
     <Folder Include="Enum\" />
     <Folder Include="Interfaces\Provider\" />
-    <Folder Include="RequestModel\" />
   </ItemGroup>
 
   <ItemGroup>
