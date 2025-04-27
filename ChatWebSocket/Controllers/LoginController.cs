@@ -7,21 +7,20 @@ namespace ChatWebSocket.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class LoginController : BaseController
     {
         private readonly IUserService _userService;
-        private readonly IConfiguration _configuration;
 
-        public LoginController(IUserService userService, IConfiguration configuration) : base()
+        public LoginController(IConfiguration configuration, IUserService userService) : base(configuration)
         {
-            _configuration = configuration;
             _userService = userService;
         }
-        [HttpPost(Name = "LoginPost")]
-        public async Task<LoginResponse> Post(LoginReq req)
+
+        [HttpPost]
+        public async Task<BaseResponse<LoginResponse>> Post(LoginReq req)
         {
             var res = await _userService.LoginAsync(req);
-            return res;
+            return Ok(res);
         }
     }
 }

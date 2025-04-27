@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ChatWebSocket.Domain.RequestModel;
 using ChatWebSocket.Helper;
 using ChatWebSocket.Domain.Interfaces.Repository;
+using System.Collections.Generic;
 
 namespace ChatWebSocket.Services
 {
@@ -53,6 +54,11 @@ namespace ChatWebSocket.Services
         {
             var existingUser = await _userRepository.GetByIdAsync(id);
             return existingUser;
+        }
+
+        public async Task<List<User>> GetAllAsync(UserFilterReq req)
+        {
+            return await _userRepository.GetAllAsync(req);
         }
     }
 }
