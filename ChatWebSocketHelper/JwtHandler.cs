@@ -14,11 +14,12 @@ namespace ChatWebSocketHelper
 {
     public static class JwtHandler
     {
-        public static string GenerateToken(string email, string secretKey, DateTime expAt, string issuer, string audience)
+        public static string GenerateToken(string email, string userId, string secretKey, DateTime expAt, string issuer, string audience)
         {
             var claims = new[]
             {
                 new Claim("Email", email),
+                new Claim("UserId", userId),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -56,7 +57,7 @@ namespace ChatWebSocketHelper
                 ValidateAudience = true,
                 ValidAudience = audience,
 
-                ValidateLifetime = true, // optional: verify expiration
+                ValidateLifetime = true,
                 RequireExpirationTime = true,
 
                 ValidateIssuerSigningKey = true,

@@ -8,11 +8,12 @@ namespace ChatWebSocket.Domain.Entities
     [DynamoDBTable("Users")]
     public class User : BaseEntity
     {
-        public string UserName { get; set; }
+        [DynamoDBHashKey]
+        public override string Id { get; set; }
         public string FullName { get; set; }
         public string Avatar { get; set; }
         public string PhoneNumber { get; set; }
-        [DynamoDBGlobalSecondaryIndexHashKey]
+        [DynamoDBGlobalSecondaryIndexHashKey("User_Email")]
         public string Email { get; set; }
     }
 }

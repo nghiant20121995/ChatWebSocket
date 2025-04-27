@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 namespace ChatWebSocket.Domain.Interfaces.Repository
 {
-    public interface IUserRepository : IBaseRepository<User>
+    public interface IUserRoomRepository : IBaseRepository<UserRoom>
     {
-        Task<User> GetByEmailAsync(string email);
     }
 }

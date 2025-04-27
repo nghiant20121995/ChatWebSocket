@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace ChatWebSocket.Domain.Interfaces.Repository
 {
-    public interface IBaseRepository<T> where T : BaseEntity
+    public interface IBaseRepository<T>
     {
         Task AddAsync(T entity, CancellationToken cancellationToken = default);
-        Task<T> GetByIdAsync(string id, CancellationToken cancellationToken = default);
+        Task<T> GetByIdAsync(string partitionKey, string sortKey = null, CancellationToken cancellationToken = default);
         Task<List<T>> GetAllAsync(CancellationToken cancellationToken = default);
-        List<T> GetAll();
+        Task UpdateAsync(T entity, CancellationToken cancellationToken = default);
+        Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
     }
 }

@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace ChatWebSocket.Domain.Interfaces.Services
 {
-    public interface IUserService
+    public interface IMessageService
     {
-        Task<LoginResponse> LoginAsync(LoginReq req);
-        Task<User> GetByEmailAsync(string email);
-        Task<User> GetByIdAsync(string id);
+        Task CreateAsync(MessageRequest req, string userId, string roomId);
     }
 }

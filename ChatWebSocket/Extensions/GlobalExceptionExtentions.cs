@@ -3,19 +3,14 @@ using Amazon.DynamoDBv2;
 using ChatWebSocket.Domain.Exceptions;
 using ChatWebSocket.Domain.Interfaces.Services;
 using ChatWebSocket.Domain.Response;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System.IO;
 using System.Text.Json;
-using Microsoft.Extensions.Hosting;
-using System.Reflection.PortableExecutable;
 using ChatWebSocket.Helper;
+using ChatWebSocket.Domain.Interfaces.Repository;
+using ChatWebSocket.Services;
+using ChatWebSocket.Infrastructure.Repository;
 
-namespace ChatWebSocket.Services.Extensions
+namespace ChatWebSocket.Extensions
 {
     public static class GlobalExceptionExtentions
     {
@@ -25,7 +20,7 @@ namespace ChatWebSocket.Services.Extensions
             {
                 var logger = httpContext.RequestServices.GetService<ILogger>();
                 var exceptionFeature = httpContext.Features.Get<IExceptionHandlerFeature>();
-                var exception = exceptionFeature.Error;
+                var exception = exceptionFeature?.Error;
 
                 var resp = new BaseResponse<object>();
                 resp.Code = -1;
@@ -66,7 +61,16 @@ namespace ChatWebSocket.Services.Extensions
 
         public static void ConfigServices(this IHostApplicationBuilder builder)
         {
+            #region repository
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+            builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+            builder.Services.AddScoped<IUserRoomRepository, UserRoomRepository>();
+            #endregion
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IMessageService, MessageService>();
+            builder.Services.AddScoped<IRoomService, RoomService>();
+            builder.Services.AddScoped<IUserRoomService, UserRoomService>();
             builder.Services.AddSingleton<IAmazonDynamoDB>(sp =>
             {
                 var config = new AmazonDynamoDBConfig

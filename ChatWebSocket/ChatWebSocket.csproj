@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ChatWebSocket.Infrastructure\ChatWebSocket.Infrastructure.csproj" />
     <ProjectReference Include="..\ChatWebSocket.Services\ChatWebSocket.Services.csproj" />
     <ProjectReference Include="..\ChatWebSocketHelper\ChatWebSocket.Helper.csproj" />
     <ProjectReference Include="..\ChatWebSocket.Domain\ChatWebSocket.Domain.csproj" />

@@ -4,6 +4,7 @@ using ChatWebSocket.Domain.Interfaces.Repository;
 //using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,45 +23,28 @@ namespace ChatWebSocket.Infrastructure.Repository
             return _context.SaveAsync(entity, cancellationToken);
         }
 
-        public List<T> GetAll()
+        public virtual Task<List<T>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            // Scan all items
+            var query = _context.ScanAsync<T>(new List<ScanCondition>());
+            return query.GetNextSetAsync(cancellationToken);
         }
 
-        public Task<List<T>> GetAllAsync(CancellationToken cancellationToken = default)
+        public virtual Task<T> GetByIdAsync(string partitionKey, string sortKey = null, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return _context.LoadAsync<T>(partitionKey, sortKey, cancellationToken);
         }
 
-        public Task<T> GetByIdAsync(string id, CancellationToken cancellationToken = default)
+        public virtual Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            entity.ModifiedDate = DateTime.UtcNow;
+            return _context.SaveAsync(entity, cancellationToken);
         }
 
-        //public virtual Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
-        //{
-        //    //entity.ModifiedDate = DateTime.UtcNow;
-        //    //_context.
-        //}
-
-        //public virtual Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
-        //{
-        //    //return _collection.DeleteOneAsync(e => e.Id.Equals(entity.Id), cancellationToken);
-        //}
-
-        //public virtual List<T> GetAll()
-        //{
-        //    //return _context.LoadAsync<T>();
-        //}
-
-        //public virtual Task<List<T>> GetAllAsync(CancellationToken cancellationToken = default)
-        //{
-        //    //return _collection.Find(_ => true).ToListAsync(cancellationToken);
-        //}
-
-        //public virtual Task<T> GetByIdAsync(string id, CancellationToken cancellationToken = default)
-        //{
-        //    //return _collection.Find(e => e.Id.Equals(id)).FirstOrDefaultAsync(cancellationToken);
-        //}
+        public virtual Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
+        {
+            entity.IsDeleted = true;
+            return _context.SaveAsync(entity, cancellationToken);
+        }
     }
 }

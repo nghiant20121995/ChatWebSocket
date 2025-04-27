@@ -1,16 +1,32 @@
-var ws = new WebSocket("ws://localhost:5149/ws?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6Im5naGlhbnQyMDEyMTk5NUBnbWFpbC5jb20iLCJqdGkiOiIyZWY2ZjQ4My00YmU3LTRmYTktOTI4My0zYjE0ZGZiNGYxZWQiLCJleHAiOjE3NDYxMTE1OTksImlzcyI6ImNoYXQtYXBwbGljYXRpb24iLCJhdWQiOiJjaGF0LWFwcGxpY2F0aW9uIn0.ekyQpW2bEYcrdyyPCRPYwqn1e7GEE_FvjqDsipZpPBZTM41nkYCRyYHJ6e_4DG04EPh6-mnP4TFPwycf2ZQm9AcXr4-RNA3jqnZnVrxuTzKcK_KVC79ZAEbm2rINEzrFsvKy9O49UmmKv283-qkHASd6RWom3-0dlXcBV3tkMW7GRxBL6V6cjL6QUMkDkDZaEh2vLNDdevgiV_6tGnYzhBUsokAedYB6j_t2Vc5l_D2y9_ox7KQ_d7UYMpjnd-o2FKqVKXs_BQr5sb5KL2PgIUyNhMYUBQ91rxmbWqbK94Lx4D4uO2xTlwKZSaEUpP4j8aOvtmKiz3gpzvH_k_RHiA");
-ws.onopen(ev => {
+var ws = new WebSocket("ws://localhost:5149/ws?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6Im5naGlhbnQyMDEyMTk5NUBnbWFpbC5jb20iLCJVc2VySWQiOiIxMjMiLCJqdGkiOiJlMDViMGQ0YS0xZmJlLTQ4YTYtYWE2OC04ZWNhYmY0MzBlMWIiLCJleHAiOjE3NDYzNDg1ODYsImlzcyI6ImNoYXQtYXBwbGljYXRpb24iLCJhdWQiOiJjaGF0LWFwcGxpY2F0aW9uIn0.TqrWewB2rSHagFwu4LMAbIqYj5PayO2MIkHfLMUMGvpNFbavXVLwKbgxlb8VIev-dfeGzZYiTfqgGZBpus5j2h3cTzYGeG3Cgnm2J3jqEUY19-Zer0mrgwUXH4WhQlXJLlQiVb3amvWpeIeGorEzjoQJnvLAZ_mFYjVEqjkM6LAoTxUE8-qh7lEpcC9xzX37HVsRh51GYkal0GqT9RML1dkIRt8isoO21k9h7uxan2gtfDPQphss4_pPttZMQzCJh8VsCqKs-B7agkuh-UVGB78R9YFDWDUA4-Ux8v7oiJRuOIdcqvaq4tS1JKHw8gDE0mI1e6ep3xX7_DudcaJbVA");
+ws.addEventListener("open", event => {
+
+});
+ws.addEventListener("close", event => {
+
+});
+ws.addEventListener("open", event => {
+
+});
+ws.addEventListener("error", event => {
 
 });
 
-ws.onclose(ev => {
-
+ws.addEventListener("message", event => {
+    var msg = JSON.parse(event.data);
+    console.log(msg.Content);
+    var contentElement = document.getElementById("Content");
+    var newElement = document.createElement("p");
+    newElement.innerHTML = msg.Content;
+    contentElement.append(newElement);
 });
 
-ws.onerror(ev => {
 
-});
-
-ws.onmessage(ev => {
-
-});
+function OnSendMsg() {
+    var json = {
+        ReceiverId: "124",
+        Content: "Hello this is the first message",
+        IsGroup: false
+    };
+    ws.send(JSON.stringify(json));
+}

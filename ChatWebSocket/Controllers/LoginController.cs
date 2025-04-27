@@ -20,8 +20,8 @@ namespace ChatWebSocket.Controllers
         [HttpPost(Name = "LoginPost")]
         public async Task<LoginResponse> Post(LoginReq req)
         {
-            var userToken = await _userService.LoginAsync(req);
-            return userToken;
+            var res = await _userService.LoginAsync(req);
+            return res;
         }
     }
 }
