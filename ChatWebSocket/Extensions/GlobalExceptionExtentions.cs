@@ -9,6 +9,7 @@ using ChatWebSocket.Helper;
 using ChatWebSocket.Domain.Interfaces.Repository;
 using ChatWebSocket.Services;
 using ChatWebSocket.Infrastructure.Repository;
+using System.Net;
 
 namespace ChatWebSocket.Extensions
 {
@@ -30,7 +31,12 @@ namespace ChatWebSocket.Extensions
                     logger?.LogInformation(exception, exception?.Message);
                     resp.Message = exception?.Message;
                 }
-                else
+                else if (exception is UnauthorizedAccessException)
+                {
+                    resp.Message = exception?.Message;
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                }
+                else 
                 {
                     logger?.LogError(exception, exception?.Message);
                     resp.Message = "Something went wrong. Please try again!";

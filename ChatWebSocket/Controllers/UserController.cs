@@ -1,4 +1,5 @@
-﻿using ChatWebSocket.Domain.Entities;
+﻿using ChatWebSocket.Attributes;
+using ChatWebSocket.Domain.Entities;
 using ChatWebSocket.Domain.Interfaces.Services;
 using ChatWebSocket.Domain.RequestModel;
 using ChatWebSocket.Domain.Response;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChatWebSocket.Controllers
 {
+    [Authenticate]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : BaseController
