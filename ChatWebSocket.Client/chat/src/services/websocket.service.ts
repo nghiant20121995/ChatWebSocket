@@ -1,5 +1,5 @@
 // websocket.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -7,13 +7,29 @@ import { environment } from 'src/environments/environment';
 @Injectable({
     providedIn: 'root'
 })
-export class WebSocketService {
+export class WebSocketService implements OnDestroy {
     private socket$: WebSocketSubject<any>;
 
     constructor() {
-        let sessionToken = localStorage.getItem('session_token');
+        let chatSession = localStorage.getItem('chat_session');
+        let sessionToken = chatSession ? JSON.parse(chatSession).Token : null;
         let wsUrl = environment.websocketUrl + '?token=' + sessionToken;
         this.socket$ = webSocket(wsUrl);
+        this.socket$.subscribe(
+            (message) => {
+                console.log('WebSocket message received:', message);
+            },
+            (error) => {
+                console.error('WebSocket error:', error);
+            },
+            () => {
+                console.log('WebSocket connection closed');
+            }
+        );
+    }
+    ngOnDestroy(): void {
+        this.socket$.unsubscribe();
+        this.socket$.complete(); // close the socket when the service is destroyed
     }
 
     sendMessage(msg: any): void {
@@ -29,7 +45,8 @@ export class WebSocketService {
     }
     reconnect(): void {
         this.close(); // close the existing connection
-        let sessionToken = localStorage.getItem('session_token');
+        let chatSession = localStorage.getItem('chat_session');
+        let sessionToken = chatSession ? JSON.parse(chatSession).token : null;
         let wsUrl = environment.websocketUrl + '?token=' + sessionToken;
         this.socket$ = webSocket(wsUrl);
     }

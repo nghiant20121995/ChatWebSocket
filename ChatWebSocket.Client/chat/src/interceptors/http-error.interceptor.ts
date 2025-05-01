@@ -47,7 +47,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
     private getToken(): string | null {
         if (!this.token) {
-            this.token = localStorage.getItem('session_token');
+            let session = localStorage.getItem('chat_session');
+            if (session) {
+                let sessionData = JSON.parse(session);
+                this.token = sessionData?.Token || null;
+            }
         }
         return this.token;
     }

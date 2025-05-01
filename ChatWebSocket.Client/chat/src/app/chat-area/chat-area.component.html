@@ -1,32 +1,54 @@
 <div class="flex-1 flex flex-col">
-<!-- Messages -->
-<div id="chat" class="flex-1 overflow-y-auto p-6 space-y-3 bg-white/60 backdrop-blur-md">
-    <div id="welcomeMessage" class="text-center text-gray-400 mt-10 text-lg">Select a conversation</div>
-</div>
+    <!-- Messages -->
+    <div id="chat" class="flex-1 overflow-y-auto p-6 space-y-3 bg-white/60 backdrop-blur-md">
+        <div *ngIf="messages.length === 0" id="welcomeMessage" class="text-center text-gray-400 mt-10 text-lg">Select a
+            conversation</div>
+        <ng-container *ngFor="let message of messages">
+            <div *ngIf="message.SenderId === currentUser.Id" class="flex items-end justify-end gap-2">
+                <div class="bg-purple-500 text-white p-2 rounded-md max-w-xs shadow">
+                    <!-- Replace this with your actual message -->
+                    {{message.Content}}
+                </div>
+                <img src="https://i.pravatar.cc/150?img=8" class="w-6 h-6 rounded-full">
+            </div>
+            <div *ngIf="message.SenderId !== currentUser.Id" class="flex items-end justify-start gap-2">
+                <img src="path-to-avatar.jpg" class="w-6 h-6 rounded-full">
+                <div class="bg-gray-200 text-gray-700 p-2 rounded-md max-w-xs shadow">
+                    {{message.Content}}
+                </div>
+            </div>
+        </ng-container>
+    </div>
 
-<!-- Input -->
-<div class="p-4 bg-white/90 backdrop-blur-sm flex items-center border-t gap-2">
+    <!-- Input -->
+    <form #MessageForm="ngForm" (ngSubmit)="sendMessage(MessageForm)" class="space-y-6" novalidate>
+        <div class="p-4 bg-white/90 backdrop-blur-sm flex items-center border-t gap-2">
 
-    <!-- Icons -->
-    <button title="Upload File" class="p-2 hover:bg-purple-100 rounded-full transition">
-        📎
-    </button>
+            <!-- Icons -->
+            <button title="Upload File" class="p-2 hover:bg-purple-100 rounded-full transition">
+                📎
+            </button>
 
-    <button title="Upload Image" class="p-2 hover:bg-purple-100 rounded-full transition">
-        🖼️
-    </button>
+            <button title="Upload Image" class="p-2 hover:bg-purple-100 rounded-full transition">
+                🖼️
+            </button>
 
-    <button title="Add Reaction" class="p-2 hover:bg-purple-100 rounded-full transition">
-        😊
-    </button>
+            <button title="Add Reaction" class="p-2 hover:bg-purple-100 rounded-full transition">
+                😊
+            </button>
 
-    <!-- Text Input -->
-    <input id="messageInput" type="text" placeholder="Type a message..."
-        class="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 transition" />
+            <!-- Text Input -->
+            <input #message="ngModel" ngModel name="message" type="text" placeholder="Type a message..."
+                class="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 transition" />
 
-    <!-- Send Button -->
-    <button onclick="sendMessage()"
-        class="bg-purple-500 hover:bg-purple-600 text-white font-semibold px-6 py-2 rounded-full transition">
-        Send
-    </button>
-</div>
+            <!-- Send Button -->
+            <button type="submit" title="Send Message"
+                class="bg-purple-500 hover:bg-purple-600 text-white font-semibold px-6 py-2 rounded-full transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0a2.25 2.25 0 00-2.25-2.25H4.5a2.25 2.25 0 00-2.25 2.25m19.5 0l-9.75 6.5m-9.75-6.5l9.75 6.5" />
+                </svg>
+            </button>
+        </div>
+    </form>

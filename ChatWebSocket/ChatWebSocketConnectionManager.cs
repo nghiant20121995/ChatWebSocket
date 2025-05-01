@@ -72,10 +72,10 @@ public static class WebSocketConnectionManager
             if (_sockets.ContainsKey(userId))
             {
                 _sockets[userId].Remove(webSocket);
-                if (_sockets[userId].Count == 0)
-                {
-                    _sockets.Remove(userId);
-                }
+                //if (_sockets[userId].Count == 0)
+                //{
+                //    _sockets.Remove(userId);
+                //}
             }
         }
     }

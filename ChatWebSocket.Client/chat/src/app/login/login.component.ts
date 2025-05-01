@@ -15,8 +15,8 @@ export class LoginComponent {
     console.log('Login button clicked', form.value);
     const response = this.userService.login(form.value.email, form.value.password).subscribe(
       (response) => {
-        if (response?.data?.token) {
-          localStorage.setItem('session_token', response?.data?.token);
+        if (response?.Code === 0 && response.Data) {
+          localStorage.setItem('chat_session', JSON.stringify(response.Data));
           this.router.navigate(['/']);
         }
       },

@@ -5,7 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 AppServiceConfig.Initialize(builder.Configuration);
 builder.LoadSecretKey();
 builder.ConfigServices();
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    // Disable camelCase to use PascalCase
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+});
 builder.Services.AddCors((options) =>
 {
     options.AddPolicy("AllowAll", policy =>
