@@ -10,10 +10,10 @@ namespace ChatWebSocket.Middlewares
     public class WebSocketHandler
     {
         private readonly RequestDelegate _next;
-        private IUserService _userService;
-        private IRoomService _roomService;
-        private IUserRoomService _userRoomService;
-        private IMessageService _messageService;
+        private IUserService? _userService;
+        private IRoomService? _roomService;
+        private IUserRoomService? _userRoomService;
+        private IMessageService? _messageService;
 
         public WebSocketHandler(RequestDelegate next)
         {

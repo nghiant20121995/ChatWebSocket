@@ -9,8 +9,8 @@ import { UserService } from 'src/services/user.service';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-  constructor(private userService: UserService) {}
-  
+  constructor(private userService: UserService) { }
+
   // Dummy users + messages
   users = [
     {
@@ -49,9 +49,20 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getUserData().subscribe(
-      (data: BaseResponse<Array<User>>) => {
-        console.log('User data:', data);
-        // Handle user data here
+      (res: BaseResponse<Array<User>>) => {
+        if (res.code === 0) {
+          // this.users = res.data.map(user => ({
+          //   name: user.FullName,
+          //   avatar: user.Avatar,
+          //   messages: [
+          //     { from: user.FullName, text: "Hey there! 👋" },
+          //     { from: "me", text: "Hi " + user.FullName + "! How's it going?" },
+          //     { from: user.FullName, text: "Pretty good, just chilling 😎" },
+          //     { from: "me", text: "Nice! 👍" },
+          //     { from: user.FullName, text: "Reacted: ❤️" }
+          //   ]
+          // }));
+        }
       },
       (error: Error) => {
         console.error('Error fetching user data:', error);

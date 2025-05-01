@@ -15,8 +15,8 @@ namespace ChatWebSocket.Helper
         public static double DayDuration => Convert.ToDouble(Configuration?.GetSection("Jwt:DayDuration")?.Value);
         public static string Issuer => Configuration?.GetSection("Jwt:Issuer")?.Value;
         public static string Audience => Configuration?.GetSection("Jwt:Audience")?.Value;
-        public static string WebSocketHost => Configuration?.GetSection("WebSocket:Host")?.Value;
-        public static string WebSocketAccessKey => Configuration?.GetSection("WebSocket:AccessKey")?.Value;
-        public static string WebSocketSecretKey => Configuration?.GetSection("WebSocket:SecretKey")?.Value;
+        public static string DynamoDbHost => Configuration?.GetSection("DynamoDb:Host")?.Value;
+        public static string DynamoDbAccessKey => Configuration?.GetSection("DynamoDb:AccessKey")?.Value;
+        public static string DynamoDbSecretKey => Configuration?.GetSection("DynamoDb:SecretKey")?.Value;
     }
 }

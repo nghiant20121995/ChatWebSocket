@@ -11,7 +11,7 @@ import { MessageComponent } from './message/message.component';
 import { ChatAreaComponent } from './chat-area/chat-area.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
+import { HttpErrorInterceptor } from '../interceptors/http-error.interceptor';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({

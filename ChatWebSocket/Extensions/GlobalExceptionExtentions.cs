@@ -81,11 +81,11 @@ namespace ChatWebSocket.Extensions
             {
                 var config = new AmazonDynamoDBConfig
                 {
-                    ServiceURL = AppServiceConfig.WebSocketHost, // for local DynamoDB
+                    ServiceURL = AppServiceConfig.DynamoDbHost, // for local DynamoDB
                 };
 
                 return new AmazonDynamoDBClient(
-                    new Amazon.Runtime.BasicAWSCredentials(AppServiceConfig.WebSocketAccessKey, AppServiceConfig.WebSocketSecretKey),
+                    new Amazon.Runtime.BasicAWSCredentials(AppServiceConfig.DynamoDbAccessKey, AppServiceConfig.DynamoDbSecretKey),
                     config
                 );
             });

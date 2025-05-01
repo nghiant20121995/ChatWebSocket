@@ -1,4 +1,5 @@
 export const environment = {
     production: false,
-    backendUrl: 'http://localhost:5149', // Replace with your actual backend URL
+    websocketUrl: 'ws://localhost:5149/ws',
+    apiUrl: 'http://localhost:5149/api',
 };

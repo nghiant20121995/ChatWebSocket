@@ -6,6 +6,6 @@ namespace ChatWebSocket.Domain.RequestModel
 {
     public class UserFilterReq
     {
-        public string? Keyword { get; set; }
+        public string Keyword { get; set; }
     }
 }

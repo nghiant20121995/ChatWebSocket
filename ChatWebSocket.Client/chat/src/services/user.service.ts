@@ -8,14 +8,14 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class UserService {
-    private backendUrl = environment.backendUrl;
+    private apiUrl = environment.apiUrl;
 
     constructor(private httpService: HttpService) {}
 
     // Example method to get user data
     getUserData(): any {
         // Replace with actual implementation
-        return this.httpService.get(`${this.backendUrl}/api/user`);
+        return this.httpService.get(`${this.apiUrl}/user`);
     }
 
     // Example method to update user data
@@ -24,8 +24,8 @@ export class UserService {
         console.log('User data updated:', userData);
     }
 
-    login(username: string, password: string): Observable<LoginResponseBase> {
+    login(email: string, password: string): Observable<LoginResponseBase> {
         // Use the backend URL from the environment file
-        return this.httpService.post<LoginResponseBase>(`${this.backendUrl}/api/login`, { username, password });
+        return this.httpService.post<LoginResponseBase>(`${this.apiUrl}/login`, { email, password });
     }
 }
