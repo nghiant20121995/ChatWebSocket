@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import Message from 'src/models/message.model';
+import ChatService from 'src/services/chat.service';
 import { WebSocketService } from 'src/services/websocket.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class ChatAreaComponent implements OnInit {
   public messages: Array<Message> = [];
   public currentUser: any = null;
 
-  constructor(private webSocketService: WebSocketService) {
+  constructor(private webSocketService: WebSocketService, private chatService: ChatService) {
     let session = localStorage.getItem('chat_session');
     if (session) {
       this.currentUser = JSON.parse(session);

@@ -1,17 +1,29 @@
 .w-20-percent {
   width: 20%;
 }
+
 .w-80-percent {
   width: 80%;
 }
+
 .w-100-percent {
   width: 100%;
 }
+
 .navbar-brand-box {
-    padding: 15px;
+  padding: 15px;
 }
+
 .navbar-config {
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #e7e7e7;
-    flex-grow: 1;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e7e7e7;
+  flex-grow: 1;
+}
+
+.btn-switchbar svg {
+  transition: color 0.1s ease;
+}
+
+.btn-switchbar.active svg {
+  color: #007bff;
 }

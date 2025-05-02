@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root',
 })
-export class UserService {
+export default class UserDataService {
     private apiUrl = environment.apiUrl;
 
     constructor(private httpService: HttpService) {}
