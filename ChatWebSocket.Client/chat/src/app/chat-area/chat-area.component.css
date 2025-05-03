@@ -3,3 +3,30 @@
     flex-direction: column;
     height: 100%;
 }
+.own-message {
+    font-size: 14px;
+}
+.reply-message {
+    color: #626365fa;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.reply-message-avatar {
+    border: 0.2px solid #f8f9fa;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+.border-radius-15 {
+    border-radius: 15px;
+}
+.no-border {
+    border: none;
+}
+.reply-message-textbox {
+    color: #363739;
+    font-size: 14px;
+}
+.reply-user-panel {
+    background-color: #fff;
+    height: 80px;
+}

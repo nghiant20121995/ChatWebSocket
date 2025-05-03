@@ -3,6 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import Message from 'src/models/message.model';
 
 @Injectable({
     providedIn: 'root'
@@ -36,7 +37,7 @@ export class WebSocketService implements OnDestroy {
         this.socket$.next(msg);
     }
 
-    getMessages(): Observable<any> {
+    getMessages(): Observable<Message> {
         return this.socket$.asObservable();
     }
 

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import ChatService from 'src/services/chat.service';
 import UserDataService from 'src/services/userdata.service';
 
 @Component({
@@ -9,7 +10,7 @@ import UserDataService from 'src/services/userdata.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  constructor(private userDataService: UserDataService, private router: Router) { }
+  constructor(private userDataService: UserDataService, private router: Router, private chatService: ChatService) { }
   onLogin(form: NgForm): void {
     // Logic for login action
     console.log('Login button clicked', form.value);
@@ -17,6 +18,7 @@ export class LoginComponent {
       (response) => {
         if (response?.Code === 0 && response.Data) {
           localStorage.setItem('chat_session', JSON.stringify(response.Data));
+          this.chatService.currentUser = response.Data;
           this.router.navigate(['/']);
         }
       },

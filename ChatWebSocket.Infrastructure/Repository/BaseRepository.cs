@@ -1,4 +1,5 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
 using ChatWebSocket.Domain.Entities;
 using ChatWebSocket.Domain.Interfaces.Repository;
 //using MongoDB.Driver;
@@ -45,6 +46,29 @@ namespace ChatWebSocket.Infrastructure.Repository
         {
             entity.IsDeleted = true;
             return _context.SaveAsync(entity, cancellationToken);
+        }
+
+
+        public virtual DynamoDBEntry[] GetDateRange(DateTime? fromDate, DateTime? toDate)
+        {
+            DynamoDBEntry[] range;
+            if (fromDate != null && toDate != null)
+            {
+                range = new DynamoDBEntry[] { fromDate.Value, toDate.Value };
+            }
+            else if (fromDate != null)
+            {
+                range = new DynamoDBEntry[] { fromDate.Value, DateTime.MaxValue };
+            }
+            else if (toDate != null)
+            {
+                range = new DynamoDBEntry[] { DateTime.MinValue, toDate.Value };
+            }
+            else
+            {
+                range = null;
+            }
+            return range;
         }
     }
 }

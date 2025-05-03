@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BaseResponse } from 'src/models/base-response.model';
+import { LoginResponse } from 'src/models/login-response.model';
 import User from 'src/models/user.model';
+import ChatService from 'src/services/chat.service';
 import UserDataService from 'src/services/userdata.service';
 
 @Component({
@@ -11,13 +13,10 @@ import UserDataService from 'src/services/userdata.service';
 export class SidebarComponent implements OnInit {
   @Input() sideBarType: number = 1;
   users: Array<User> = [];
-  currentUser: User | null = null;
+  currentUser: LoginResponse | null = null;
 
-  constructor(private userDataService: UserDataService) {
-    let session = localStorage.getItem('chat_session');
-    if (session) {
-      this.currentUser = JSON.parse(session);
-    }
+  constructor(private userDataService: UserDataService, private chatService: ChatService) {
+    this.currentUser = this.chatService.currentUser;
   }
 
   ngOnInit(): void {
@@ -31,5 +30,9 @@ export class SidebarComponent implements OnInit {
         console.error('Error fetching user data:', error);
       }
     );
+  }
+  onUserClick = (user: User) => {
+    console.log('User clicked:', user);
+    this.chatService.activateUser(user);
   }
 }

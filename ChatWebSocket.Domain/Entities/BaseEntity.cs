@@ -10,7 +10,7 @@ namespace ChatWebSocket.Domain.Entities
     {
         [DynamoDBHashKey]
         public virtual string Id { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public virtual DateTime CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
     }

@@ -11,4 +11,15 @@ namespace ChatWebSocket.Domain.RequestModel
         public string Content { get; set; }
         public bool IsGroup { get; set; }
     }
+
+    public class MessageFilterRequest
+    {
+        public string RoomId { get; set; }
+        public string SenderId { get; set; }
+        public string ReceiverId { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+        public int Limit { get; set; } = 20;
+        public int Offset { get; set; } = 0;
+    }
 }

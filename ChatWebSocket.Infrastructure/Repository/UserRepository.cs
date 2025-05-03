@@ -36,7 +36,7 @@ namespace ChatWebSocket.Infrastructure.Repository
                 filters.Add(new ScanCondition("FullName", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Contains, req.Keyword));
                 config = new DynamoDBOperationConfig()
                 {
-                    IndexName = "User_FullName"
+                    IndexName = "User_FullName",
                 };
             }
             // Scan all items

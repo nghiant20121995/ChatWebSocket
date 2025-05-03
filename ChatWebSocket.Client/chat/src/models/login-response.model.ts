@@ -1,16 +1,16 @@
 import { BaseResponse } from './base-response.model';
 
 export class LoginResponse {
-    token: string;
-    id: string;
-    username: string;
-    email: string;
+    Token!: string;
+    Id!: string;
+    Username!: string;
+    Email!: string;
 
     constructor(token: string, id: string, username: string, email: string) {
-        this.token = token;
-        this.id = id;
-        this.username = username;
-        this.email = email;
+        this.Token = token;
+        this.Id = id;
+        this.Username = username;
+        this.Email = email;
     }
 }
 

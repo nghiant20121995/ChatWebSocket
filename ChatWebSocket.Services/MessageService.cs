@@ -4,6 +4,7 @@ using ChatWebSocket.Domain.Interfaces.Repository;
 using ChatWebSocket.Domain.Interfaces.Services;
 using ChatWebSocket.Domain.RequestModel;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ChatWebSocket.Services
@@ -29,6 +30,11 @@ namespace ChatWebSocket.Services
                 RoomId = roomId
             };
             return _messageRepository.AddAsync(msg);
+        }
+
+        public Task<List<Message>> GetByFilterAsync(MessageFilterRequest req)
+        {
+            return _messageRepository.GetByFilterAsync(req);
         }
     }
 }
