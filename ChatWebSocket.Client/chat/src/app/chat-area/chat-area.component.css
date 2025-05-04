@@ -28,7 +28,7 @@
 }
 .reply-user-panel {
     background-color: #fff;
-    height: 80px;
+    height: 75px;
 }
 .reply-user-avatar {
     border: 0.2px solid #f8f9fa;
@@ -40,6 +40,13 @@
     color: #363739;
 }
 .online-font-text {
-    font-size: 0.75rem;
+    font-size: 0.64rem;
     line-height: 1rem;
+}
+.online-font-icon {
+    width: 0.7rem;
+    height: 0.75rem;
+}
+.reply-message-empty-div {
+    width: 2.5rem;
 }
