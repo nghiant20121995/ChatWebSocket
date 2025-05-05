@@ -1,6 +1,13 @@
 <div class="flex reply-user-panel p-1">
     <div class="flex flex-1 items-center gap-2 p-4">
-        <img src="https://i.pravatar.cc/150?img=8" class="rounded-full reply-user-avatar" alt="User Avatar">
+        <img *ngIf="receiver?.Avatar; else defaultAvatar" src="https://i.pravatar.cc/150?img=8"
+            class="rounded-full reply-user-avatar" alt="User Avatar">
+        <ng-template #defaultAvatar>
+            <div
+                class="bg-blue-500 text-white rounded-full default-avatar-panel flex items-center justify-center text-lg font-bold">
+                {{receiver?.FirsttwoLetters ?? ''}}
+            </div>
+        </ng-template>
         <div class="flex flex-col">
             <h3 class="text-lg font-semibold text-gray-800">{{receiver?.FullName}}</h3>
             <p class="text-sm text-gray-500 online-font-text">
@@ -38,15 +45,18 @@
     <div *ngIf="messages.length === 0" id="welcomeMessage" class="text-center text-gray-400 mt-10 text-lg">Select a
         conversation</div>
     <ng-container *ngFor="let message of messages; let i = index">
-        <div *ngIf="message.SenderId === currentUser?.Id" class="flex items-start justify-end gap-2 own-message transition">
+        <div *ngIf="message.SenderId === currentUser?.Id"
+            class="flex items-start justify-end gap-2 own-message transition">
             <div class="bg-blue-500 text-white p-3 rounded-md max-w-xs shadow border-radius-15">
                 <!-- Replace this with your actual message -->
                 {{message.Content}}
             </div>
         </div>
-        <div *ngIf="message.SenderId !== currentUser?.Id" class="flex items-start justify-start gap-2 reply-message transition">
+        <div *ngIf="message.SenderId !== currentUser?.Id"
+            class="flex items-start justify-start gap-2 reply-message transition">
             <div *ngIf="i > 0 && message.SenderId === messages[i - 1].SenderId" class="reply-message-empty-div"></div>
-            <img *ngIf="i === 0 || message.SenderId !== messages[i - 1].SenderId" src="https://i.pravatar.cc/150?img=8" class="rounded-full reply-message-avatar" alt="User Avatar">
+            <img *ngIf="i === 0 || message.SenderId !== messages[i - 1].SenderId" src="https://i.pravatar.cc/150?img=8"
+                class="rounded-full reply-message-avatar" alt="User Avatar">
             <div class="bg-white text-gray-700 p-3 rounded-md max-w-xs shadow border-radius-15">
                 {{message.Content}}
             </div>
@@ -57,20 +67,22 @@
 <!-- Input -->
 <form #MessageForm="ngForm" (ngSubmit)="sendMessage(MessageForm)" class="space-y-6 bg-white" novalidate>
     <div class="p-4 bg-white/90 backdrop-blur-sm flex items-center border-t gap-2">
+        <!-- Icons -->
+        <button title="Upload File" class="p-2 hover:bg-gray-100 transition">
+            <img src="assets/icons/import-file.svg" alt="Add Reaction" class="w-5 h-5">
+        </button>
+
+        <button title="Upload Image" class="p-2 hover:bg-gray-100 transition">
+            <img src="assets/icons/upload-image.svg" alt="Add Reaction" class="w-5 h-5">
+        </button>
         <!-- Text Input -->
         <input #message="ngModel" ngModel name="message" type="text" placeholder="Type a message..."
             class="flex-1 no-border px-2 py-2 focus:outline-none transition reply-message-textbox" autocomplete="off" />
-        <!-- Icons -->
-        <button title="Upload File" class="p-2 hover:bg-purple-100 rounded-full transition">
-            📎
-        </button>
 
-        <button title="Upload Image" class="p-2 hover:bg-purple-100 rounded-full transition">
-            🖼️
-        </button>
 
-        <button title="Add Reaction" class="p-2 transition">
-            <span class="text-lg cursor-pointer hover:text-blue-500 transition">👍</span>
+
+        <button title="Add Reaction" class="p-2 hover:bg-gray-100 transition">
+            <img src="assets/icons/like-button.svg" alt="Add Reaction" class="w-5 h-5">
         </button>
     </div>
 </form>

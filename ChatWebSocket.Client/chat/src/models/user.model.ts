@@ -6,4 +6,9 @@ export default class User extends BaseModel
     Avatar: string  | undefined;
     PhoneNumber: string | undefined;
     Email: string | undefined;
+    FirsttwoLetters: string | undefined;
+}
+
+export class GroupContact {
+    [key: string]: Array<User>;
 }

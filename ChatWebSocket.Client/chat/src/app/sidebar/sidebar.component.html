@@ -32,54 +32,18 @@
     <div class="flex-1 overflow-y-auto space-y-3">
         <div class="max-w-md mx-auto p-4 space-y-6">
             <!-- Group A -->
-            <div>
+            <div *ngFor="let key of getGroupContactKeys(groupContact)">
                 <div class="flex items-center space-x-2">
-                    <span class="text-green-600 font-semibold text-sm">A</span>
+                    <span class="text-green-600 font-semibold text-sm">{{key}}</span>
                     <div class="flex-grow border-t border-gray-200"></div>
                 </div>
-                <div class="flex items-center justify-between py-2">
+                <div class="flex items-center justify-between py-2 cursor-pointer" *ngFor="let user of groupContact[key]" (click)="onUserClick(user)">
                     <div class="flex items-center space-x-3">
                         <div
                             class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
-                            AL
+                            {{user.FirsttwoLetters}}
                         </div>
-                        <span class="text-gray-800">Alvarez Luna</span>
-                    </div>
-                    <div class="text-gray-500 cursor-pointer">⋮</div>
-                </div>
-            </div>
-
-            <!-- Group A -->
-            <div>
-                <div class="flex items-center space-x-2">
-                    <span class="text-green-600 font-semibold text-sm">A</span>
-                    <div class="flex-grow border-t border-gray-200"></div>
-                </div>
-                <div class="flex items-center justify-between py-2">
-                    <div class="flex items-center space-x-3">
-                        <div
-                            class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
-                            AL
-                        </div>
-                        <span class="text-gray-800">Alvarez Luna</span>
-                    </div>
-                    <div class="text-gray-500 cursor-pointer">⋮</div>
-                </div>
-            </div>
-
-            <!-- Group A -->
-            <div>
-                <div class="flex items-center space-x-2">
-                    <span class="text-green-600 font-semibold text-sm">A</span>
-                    <div class="flex-grow border-t border-gray-200"></div>
-                </div>
-                <div class="flex items-center justify-between py-2">
-                    <div class="flex items-center space-x-3">
-                        <div
-                            class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
-                            AL
-                        </div>
-                        <span class="text-gray-800">Alvarez Luna</span>
+                        <span class="text-gray-800 text-sm">{{user.FullName}}</span>
                     </div>
                     <div class="text-gray-500 cursor-pointer">⋮</div>
                 </div>
