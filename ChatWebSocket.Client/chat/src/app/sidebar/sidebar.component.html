@@ -7,19 +7,92 @@
 
 
 <div *ngIf="sideBarType === 2" class="flex-1 overflow-y-auto p-4 space-y-3">
-    
+
 </div>
 
 
-<div *ngIf="sideBarType === 3" class="flex-1 overflow-y-auto p-4 space-y-3 group-bar">
-    <div class="flex-1 overflow-y-auto p-4 space-y-3">
-        <div *ngFor="let user of users"
-            class="flex items-center p-3 bg-white rounded-lg shadow hover:bg-purple-100 cursor-pointer transition" (click)="onUserClick(user)">
+<div *ngIf="sideBarType === 3" class="flex-1 flex-col overflow-y-auto p-4 space-y-3 group-bar">
+    <div class="flex flex-col px-2">
+        <div class="flex items-center">
+            <span class="flex-1 text-gray-500 font-bold text-xl">Contacts</span>
+            <button class="ml-auto transition add-contact-icon">
+                +
+            </button>
+        </div>
+        <div class="flex items-center bg-gray-100 px-4 mt-30">
+            <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" placeholder="Search Contacts..."
+                class="bg-gray-100 text-gray-700 placeholder-gray-500 focus:outline-none w-full contact-search-input" />
+        </div>
+    </div>
+    <div class="flex-1 overflow-y-auto space-y-3">
+        <div class="max-w-md mx-auto p-4 space-y-6">
+            <!-- Group A -->
+            <div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-green-600 font-semibold text-sm">A</span>
+                    <div class="flex-grow border-t border-gray-200"></div>
+                </div>
+                <div class="flex items-center justify-between py-2">
+                    <div class="flex items-center space-x-3">
+                        <div
+                            class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
+                            AL
+                        </div>
+                        <span class="text-gray-800">Alvarez Luna</span>
+                    </div>
+                    <div class="text-gray-500 cursor-pointer">⋮</div>
+                </div>
+            </div>
+
+            <!-- Group A -->
+            <div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-green-600 font-semibold text-sm">A</span>
+                    <div class="flex-grow border-t border-gray-200"></div>
+                </div>
+                <div class="flex items-center justify-between py-2">
+                    <div class="flex items-center space-x-3">
+                        <div
+                            class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
+                            AL
+                        </div>
+                        <span class="text-gray-800">Alvarez Luna</span>
+                    </div>
+                    <div class="text-gray-500 cursor-pointer">⋮</div>
+                </div>
+            </div>
+
+            <!-- Group A -->
+            <div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-green-600 font-semibold text-sm">A</span>
+                    <div class="flex-grow border-t border-gray-200"></div>
+                </div>
+                <div class="flex items-center justify-between py-2">
+                    <div class="flex items-center space-x-3">
+                        <div
+                            class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
+                            AL
+                        </div>
+                        <span class="text-gray-800">Alvarez Luna</span>
+                    </div>
+                    <div class="text-gray-500 cursor-pointer">⋮</div>
+                </div>
+            </div>
+        </div>
+        <!-- <div *ngFor="let user of users"
+            class="flex items-center p-3 bg-white rounded-lg shadow hover:bg-purple-100 cursor-pointer transition"
+            (click)="onUserClick(user)">
             <img src="{{user.Avatar}}" alt="{{user.FullName}}" class="w-10 h-10 rounded-full mr-3">
             <div class="flex flex-col">
                 <span class="font-semibold">{{user.FullName}}</span>
                 <span class="text-xs text-gray-400">Tap to chat</span>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
