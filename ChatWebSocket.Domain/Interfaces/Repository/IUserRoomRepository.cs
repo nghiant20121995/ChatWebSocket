@@ -7,5 +7,6 @@ namespace ChatWebSocket.Domain.Interfaces.Repository
 {
     public interface IUserRoomRepository : IBaseRepository<UserRoom>
     {
+        Task<List<UserRoom>> GetByUserIdAsync(string userId);
     }
 }

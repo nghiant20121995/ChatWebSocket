@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from 'src/utilities/http-service';
 import { environment } from 'src/environments/environment';
-import { LoginResponseBase } from 'src/models/login-response.model';
 import { Observable } from 'rxjs';
 import { MessageFilterResponse } from 'src/models/userRoom-response.model';
 
 @Injectable({
     providedIn: 'root',
 })
-export default class MessageDataService {
+export default class UserRoomDataService {
     private apiUrl = environment.apiUrl;
 
     constructor(private httpService: HttpService) {}
 
     // Example method to get user data
-    GetByRoomAsync(RoomId: string, FromDate: Date | null = null, ToDate: Date | null = null, SenderId: string | null = null, ReceiverId: string | null = null): Observable<MessageFilterResponse> {
+    GetRoomByUserAsync(userId: string, FromDate: Date | null = null, ToDate: Date | null = null, SenderId: string | null = null, ReceiverId: string | null = null): Observable<MessageFilterResponse> {
         // Replace with actual implementation
-        var url = `${this.apiUrl}/message?RoomId=${RoomId}`;
+        var url = `${this.apiUrl}/conversation?RoomId=${userId}`;
         if (FromDate) {
             url += `&FromDate=${FromDate.toISOString()}`;
         }

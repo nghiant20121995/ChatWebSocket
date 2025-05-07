@@ -2,6 +2,7 @@
 using ChatWebSocket.Domain.Interfaces.Repository;
 using ChatWebSocket.Domain.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ChatWebSocket.Services
@@ -31,6 +32,13 @@ namespace ChatWebSocket.Services
                 return newUserRoom;
             }
             return currentUserRoom;
+        }
+
+        public async Task<List<Room>> GetLatestRoomByUserIdAsync(string userId)
+        {
+            var userRooms = await _userRoomRepository.GetByUserIdAsync(userId);
+            var rooms = new List<Room>();
+            return rooms;
         }
     }
 }

@@ -11,6 +11,9 @@ namespace ChatWebSocket.Domain.Entities
         [DynamoDBHashKey("RoomId")]
         public override string Id { get; set; }
         [DynamoDBRangeKey]
+        [DynamoDBGlobalSecondaryIndexHashKey("UserId")]
         public string UserId { get; set; }
+        [DynamoDBGlobalSecondaryIndexRangeKey("CreatedDate")]
+        public override DateTime CreatedDate { get; set; }
     }
 }

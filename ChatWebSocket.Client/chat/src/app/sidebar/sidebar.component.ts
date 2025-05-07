@@ -4,6 +4,7 @@ import { LoginResponse } from 'src/models/login-response.model';
 import User, { GroupContact } from 'src/models/user.model';
 import ChatService from 'src/services/chat.service';
 import UserDataService from 'src/services/userdata.service';
+import UserRoomDataService from 'src/services/userRoomData.service';
 
 @Component({
   selector: 'sidebar',
@@ -15,7 +16,7 @@ export class SidebarComponent implements OnInit {
   groupContact: GroupContact = {};
   currentUser: LoginResponse | null = null;
 
-  constructor(private userDataService: UserDataService, private chatService: ChatService) {
+  constructor(private userDataService: UserDataService, private chatService: ChatService, private userRoomDataService: UserRoomDataService) {
     this.currentUser = this.chatService.currentUser;
   }
 
@@ -45,6 +46,13 @@ export class SidebarComponent implements OnInit {
           }, {} as GroupContact);
           console.log('groupContact:', this.groupContact);
         }
+      },
+      (error: Error) => {
+        console.error('Error fetching user data:', error);
+      }
+    );
+    this.userRoomDataService.GetRoomByUserAsync(this.currentUser?.Id!).subscribe(
+      (res: any) => {
       },
       (error: Error) => {
         console.error('Error fetching user data:', error);
