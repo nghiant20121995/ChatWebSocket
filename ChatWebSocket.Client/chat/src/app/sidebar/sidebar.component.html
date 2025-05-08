@@ -1,120 +1,208 @@
 <ng-container *ngIf="sideBarType === 1">
-    <div class="w-80 h-screen bg-white border-r space-y-4">
-      <div class="p-4">
-        <div class="flex flex-col px-2">
-            <div class="flex items-center">
-                <span class="flex-1 text-gray-500 font-bold text-xl">Chat</span>
-                <button class="ml-auto transition add-contact-icon">
-                    +
-                </button>
-            </div>
-            <div class="flex items-center bg-gray-100 px-4 mt-30">
-                <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                <input type="text" placeholder="Search Conversations..."
-                    class="bg-gray-100 text-gray-700 placeholder-gray-500 focus:outline-none w-full contact-search-input" />
-            </div>
+  <div class="w-80 h-screen bg-white border-r space-y-3 flex flex-col">
+    <div class="p-4">
+      <div class="flex flex-col px-2">
+        <div class="flex items-center">
+          <span class="flex-1 text-gray-500 font-bold text-xl">Chat</span>
+          <button class="ml-auto transition add-contact-icon">
+            +
+          </button>
         </div>
-
-        <!-- Top Contacts -->
-        <div class="flex space-x-4 overflow-x-auto justify-center">
-            <div class="flex flex-col items-center">
-                <img src="https://via.placeholder.com/48" alt="Avatar" class="rounded-full w-12 h-12" />
-                <span class="text-xs mt-1">Patric...</span>
-            </div>
-            <div class="flex flex-col items-center">
-                <img src="https://via.placeholder.com/48" alt="Avatar" class="rounded-full w-12 h-12" />
-                <span class="text-xs mt-1">Doris</span>
-            </div>
-            <div class="flex flex-col items-center">
-                <img src="https://via.placeholder.com/48" alt="Avatar" class="rounded-full w-12 h-12" />
-                <span class="text-xs mt-1">Emily</span>
-            </div>
-            <div class="flex flex-col items-center">
-                <img src="https://via.placeholder.com/48" alt="Avatar" class="rounded-full w-12 h-12" />
-                <span class="text-xs mt-1">Steve</span>
-            </div>
+        <div class="flex items-center bg-gray-100 px-4 mt-30">
+          <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input type="text" placeholder="Search Conversations..."
+            class="bg-gray-100 text-gray-700 placeholder-gray-500 focus:outline-none w-full contact-search-input" />
         </div>
       </div>
-        <!-- Recent Chats -->
-        <div>
-            <h3 class="text-sm font-semibold text-gray-500 uppercase px-4">Recent</h3>
-            <div class="mt-2 overflow-y-auto">
-                <!-- Chat Item -->
-                <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
-                    <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
-                    <div class="flex-1">
-                        <div class="flex justify-between">
-                            <span class="font-medium text-sm">Patrick Hendricks</span>
-                            <span class="text-xs text-gray-400">05 min</span>
-                        </div>
-                        <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
-                    </div>
-                    <span class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
-                    </span>
-                </div>
 
-                <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
-                  <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
-                  <div class="flex-1">
-                      <div class="flex justify-between">
-                          <span class="font-medium text-sm">Patrick Hendricks</span>
-                          <span class="text-xs text-gray-400">05 min</span>
-                      </div>
-                      <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
-                  </div>
-                  <span class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
-                  </span>
-              </div>
-
-              <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
-                  <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
-                  <div class="flex-1">
-                      <div class="flex justify-between">
-                          <span class="font-medium text-sm">Patrick Hendricks</span>
-                          <span class="text-xs text-gray-400">05 min</span>
-                      </div>
-                      <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
-                  </div>
-                  <span class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
-                  </span>
-              </div>
-
-              <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
-                  <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
-                  <div class="flex-1">
-                      <div class="flex justify-between">
-                          <span class="font-medium text-sm">Patrick Hendricks</span>
-                          <span class="text-xs text-gray-400">05 min</span>
-                      </div>
-                      <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
-                  </div>
-                  <span class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
-                  </span>
-              </div>
-
-              <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
-                  <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
-                  <div class="flex-1">
-                      <div class="flex justify-between">
-                          <span class="font-medium text-sm">Patrick Hendricks</span>
-                          <span class="text-xs text-gray-400">05 min</span>
-                      </div>
-                      <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
-                  </div>
-                  <span class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
-                  </span>
-              </div>
-
-                <!-- Duplicate for other chats... -->
-                <!-- Repeat chat item structure here for Mark, Doris, etc. -->
-
-            </div>
+      <!-- Top Contacts -->
+      <div class="flex space-x-4 overflow-x-auto justify-center">
+        <div class="flex flex-col items-center">
+          <img src="https://via.placeholder.com/48" alt="Avatar" class="rounded-full w-12 h-12" />
+          <span class="text-xs mt-1">Patric...</span>
         </div>
+        <div class="flex flex-col items-center">
+          <img src="https://via.placeholder.com/48" alt="Avatar" class="rounded-full w-12 h-12" />
+          <span class="text-xs mt-1">Doris</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <img src="https://via.placeholder.com/48" alt="Avatar" class="rounded-full w-12 h-12" />
+          <span class="text-xs mt-1">Emily</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <img src="https://via.placeholder.com/48" alt="Avatar" class="rounded-full w-12 h-12" />
+          <span class="text-xs mt-1">Steve</span>
+        </div>
+      </div>
     </div>
+    <h3 class="text-sm font-semibold text-gray-500 uppercase px-4">Recent</h3>
+    <!-- Recent Chats -->
+    <div class="flex-1 flex flex-col overflow-y-auto">
+
+      <!-- Chat Item -->
+      <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
+        <div class="flex-1">
+          <div class="flex justify-between">
+            <span class="font-medium text-sm">Patrick Hendricks</span>
+            <span class="text-xs text-gray-400">05 min</span>
+          </div>
+          <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
+        </div>
+        <span
+          class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
+        </span>
+      </div>
+
+      <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
+        <div class="flex-1">
+          <div class="flex justify-between">
+            <span class="font-medium text-sm">Patrick Hendricks</span>
+            <span class="text-xs text-gray-400">05 min</span>
+          </div>
+          <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
+        </div>
+        <span
+          class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
+        </span>
+      </div>
+
+      <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
+        <div class="flex-1">
+          <div class="flex justify-between">
+            <span class="font-medium text-sm">Patrick Hendricks</span>
+            <span class="text-xs text-gray-400">05 min</span>
+          </div>
+          <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
+        </div>
+        <span
+          class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
+        </span>
+      </div>
+
+      <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
+        <div class="flex-1">
+          <div class="flex justify-between">
+            <span class="font-medium text-sm">Patrick Hendricks</span>
+            <span class="text-xs text-gray-400">05 min</span>
+          </div>
+          <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
+        </div>
+        <span
+          class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
+        </span>
+      </div>
+
+      <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
+        <div class="flex-1">
+          <div class="flex justify-between">
+            <span class="font-medium text-sm">Patrick Hendricks</span>
+            <span class="text-xs text-gray-400">05 min</span>
+          </div>
+          <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
+        </div>
+        <span
+          class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
+        </span>
+      </div>
+
+      <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
+        <div class="flex-1">
+          <div class="flex justify-between">
+            <span class="font-medium text-sm">Patrick Hendricks</span>
+            <span class="text-xs text-gray-400">05 min</span>
+          </div>
+          <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
+        </div>
+        <span
+          class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
+        </span>
+      </div>
+
+      <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
+        <div class="flex-1">
+          <div class="flex justify-between">
+            <span class="font-medium text-sm">Patrick Hendricks</span>
+            <span class="text-xs text-gray-400">05 min</span>
+          </div>
+          <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
+        </div>
+        <span
+          class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
+        </span>
+      </div>
+
+      <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
+        <div class="flex-1">
+          <div class="flex justify-between">
+            <span class="font-medium text-sm">Patrick Hendricks</span>
+            <span class="text-xs text-gray-400">05 min</span>
+          </div>
+          <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
+        </div>
+        <span
+          class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
+        </span>
+      </div>
+
+      <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
+        <div class="flex-1">
+          <div class="flex justify-between">
+            <span class="font-medium text-sm">Patrick Hendricks</span>
+            <span class="text-xs text-gray-400">05 min</span>
+          </div>
+          <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
+        </div>
+        <span
+          class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
+        </span>
+      </div>
+
+      <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
+        <div class="flex-1">
+          <div class="flex justify-between">
+            <span class="font-medium text-sm">Patrick Hendricks</span>
+            <span class="text-xs text-gray-400">05 min</span>
+          </div>
+          <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
+        </div>
+        <span
+          class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
+        </span>
+      </div>
+
+      <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
+        <div class="flex-1">
+          <div class="flex justify-between">
+            <span class="font-medium text-sm">Patrick Hendricks</span>
+            <span class="text-xs text-gray-400">05 min</span>
+          </div>
+          <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
+        </div>
+        <span
+          class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">
+        </span>
+      </div>
+
+      <!-- Duplicate for other chats... -->
+      <!-- Repeat chat item structure here for Mark, Doris, etc. -->
+
+    </div>
+  </div>
 </ng-container>
 
 
@@ -124,45 +212,43 @@
 
 
 <div *ngIf="sideBarType === 3" class="flex-1 flex-col overflow-y-auto p-4 space-y-3 group-bar">
-    <div class="flex flex-col px-2">
-        <div class="flex items-center">
-            <span class="flex-1 text-gray-500 font-bold text-xl">Contacts</span>
-            <button class="ml-auto transition add-contact-icon">
-                +
-            </button>
-        </div>
-        <div class="flex items-center bg-gray-100 px-4 mt-30">
-            <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" stroke-width="2"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input type="text" placeholder="Search Contacts..."
-                class="bg-gray-100 text-gray-700 placeholder-gray-500 focus:outline-none w-full contact-search-input" />
-        </div>
+  <div class="flex flex-col px-2">
+    <div class="flex items-center">
+      <span class="flex-1 text-gray-500 font-bold text-xl">Contacts</span>
+      <button class="ml-auto transition add-contact-icon">
+        +
+      </button>
     </div>
-    <div class="flex-1 overflow-y-auto space-y-3">
-        <div class="max-w-md mx-auto p-4 space-y-6">
-            <!-- Group A -->
-            <div *ngFor="let key of getGroupContactKeys(groupContact)">
-                <div class="flex items-center space-x-2">
-                    <span class="text-green-600 font-semibold text-sm">{{key}}</span>
-                    <div class="flex-grow border-t border-gray-200"></div>
-                </div>
-                <div class="flex items-center justify-between py-2 cursor-pointer"
-                    *ngFor="let user of groupContact[key]" (click)="onUserClick(user)">
-                    <div class="flex items-center space-x-3">
-                        <div
-                            class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
-                            {{user.FirsttwoLetters}}
-                        </div>
-                        <span class="text-gray-800 text-sm">{{user.FullName}}</span>
-                    </div>
-                    <div class="text-gray-500 cursor-pointer">⋮</div>
-                </div>
-            </div>
+    <div class="flex items-center bg-gray-100 px-4 mt-30">
+      <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input type="text" placeholder="Search Contacts..."
+        class="bg-gray-100 text-gray-700 placeholder-gray-500 focus:outline-none w-full contact-search-input" />
+    </div>
+  </div>
+  <div class="flex-1 overflow-y-auto space-y-3">
+    <div class="max-w-md mx-auto p-4 space-y-6">
+      <!-- Group A -->
+      <div *ngFor="let key of getGroupContactKeys(groupContact)">
+        <div class="flex items-center space-x-2">
+          <span class="text-green-600 font-semibold text-sm">{{key}}</span>
+          <div class="flex-grow border-t border-gray-200"></div>
         </div>
-        <!-- <div *ngFor="let user of users"
+        <div class="flex items-center justify-between py-2 cursor-pointer" *ngFor="let user of groupContact[key]"
+          (click)="onUserClick(user)">
+          <div class="flex items-center space-x-3">
+            <div
+              class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
+              {{user.FirsttwoLetters}}
+            </div>
+            <span class="text-gray-800 text-sm">{{user.FullName}}</span>
+          </div>
+          <div class="text-gray-500 cursor-pointer">⋮</div>
+        </div>
+      </div>
+    </div>
+    <!-- <div *ngFor="let user of users"
             class="flex items-center p-3 bg-white rounded-lg shadow hover:bg-purple-100 cursor-pointer transition"
             (click)="onUserClick(user)">
             <img src="{{user.Avatar}}" alt="{{user.FullName}}" class="w-10 h-10 rounded-full mr-3">
@@ -171,5 +257,5 @@
                 <span class="text-xs text-gray-400">Tap to chat</span>
             </div>
         </div> -->
-    </div>
+  </div>
 </div>

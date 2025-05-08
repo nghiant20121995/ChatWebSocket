@@ -46,3 +46,25 @@
     padding: 0.9rem;
 }
 
+/* Target the whole scrollbar */
+::-webkit-scrollbar {
+  width: 4px; /* Thinner width */
+}
+
+/* Background of the track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* The draggable part (thumb) */
+::-webkit-scrollbar-thumb {
+  background: #c2c2c2;
+  border-radius: 10px;
+}
+
+/* On hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
