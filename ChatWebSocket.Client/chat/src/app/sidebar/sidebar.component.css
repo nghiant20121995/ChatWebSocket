@@ -33,6 +33,16 @@
 .chat-item-notification {
     height: 9px;
     width: 9px;
-    bottom: 13px;
-    right: 0px;
+    bottom: 18px;
+    right: 14px;
 }
+.p-75 {
+    padding: 0.75rem;
+}
+.p-80 {
+    padding: 0.8rem;
+}
+.p-90 {
+    padding: 0.9rem;
+}
+
