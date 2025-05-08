@@ -1,7 +1,5 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using ChatWebSocket.Domain.RequestModel;
 
 namespace ChatWebSocket.Domain.Entities
 {
@@ -9,5 +7,6 @@ namespace ChatWebSocket.Domain.Entities
     public class Room : BaseEntity
     {
         public string RoomName { get; set; }
+        public MessageRequest LatestMessage { get; set; }
     }
 }

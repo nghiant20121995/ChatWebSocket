@@ -3,6 +3,7 @@ using ChatWebSocket.Domain.Interfaces.Repository;
 using ChatWebSocket.Domain.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ChatWebSocket.Services
@@ -11,11 +12,13 @@ namespace ChatWebSocket.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IUserRoomRepository _userRoomRepository;
+        private readonly IRoomRepository _roomRepository;
 
-        public UserRoomService(IConfiguration configuration, IUserRoomRepository userRoomRepository)
+        public UserRoomService(IConfiguration configuration, IUserRoomRepository userRoomRepository, IRoomRepository roomRepository)
         {
             _configuration = configuration;
             _userRoomRepository = userRoomRepository;
+            _roomRepository = roomRepository;
         }
 
         public async Task<UserRoom> AddMemberToRoomAsync(string roomId, string userId)
@@ -34,11 +37,27 @@ namespace ChatWebSocket.Services
             return currentUserRoom;
         }
 
-        public async Task<List<Room>> GetLatestRoomByUserIdAsync(string userId)
+        public async Task<List<UserRoom>> GetLatestRoomByUserIdAsync(string userId)
         {
             var userRooms = await _userRoomRepository.GetByUserIdAsync(userId);
-            var rooms = new List<Room>();
-            return rooms;
+            if (userRooms == null || userRooms.Count == 0)
+            {
+                return new ();
+            }
+            var rooms = await _roomRepository.GetByListIdsAsync(userRooms.Select(x => x.Id));
+            if (rooms == null || rooms.Count == 0)
+            {
+                return new();
+            }
+            foreach (var userRoom in userRooms)
+            {
+                var existingRoom = rooms.ContainsKey(userRoom.Id) ? rooms[userRoom.Id] : null;
+                if (existingRoom != null)
+                {
+                    userRoom.Room = existingRoom;
+                }
+            }
+            return userRooms;
         }
     }
 }

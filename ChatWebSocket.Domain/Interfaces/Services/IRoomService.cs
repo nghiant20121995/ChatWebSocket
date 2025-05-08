@@ -8,5 +8,6 @@ namespace ChatWebSocket.Domain.Interfaces.Services
     {
         Task<Room> GetByIdAsync(string id);
         Task<Room> CreateRoomAsync(string id, string roomName);
+        Task UpdateRoomAsync(Room room);
     }
 }

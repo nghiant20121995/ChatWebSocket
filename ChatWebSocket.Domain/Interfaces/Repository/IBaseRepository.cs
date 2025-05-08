@@ -12,5 +12,6 @@ namespace ChatWebSocket.Domain.Interfaces.Repository
         Task<List<T>> GetAllAsync(CancellationToken cancellationToken = default);
         Task UpdateAsync(T entity, CancellationToken cancellationToken = default);
         Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
+        Task<Dictionary<string, T>> GetByListIdsAsync(IEnumerable<string> ids, CancellationToken cancellationToken = default);
     }
 }

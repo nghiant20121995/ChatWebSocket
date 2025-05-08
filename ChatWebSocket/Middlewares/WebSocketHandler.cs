@@ -77,6 +77,9 @@ namespace ChatWebSocket.Middlewares
                             WebSocketConnectionManager.AddMemberToRoom(roomId, receiver.Id);
                             await _messageService.CreateAsync(msgObj, userId, roomId);
                             WebSocketConnectionManager.SendMessageToRoom(roomId, msgObj);
+                            var room = await _roomService.GetByIdAsync(roomId);
+                            room.LatestMessage = msgObj;
+                            await _roomService.UpdateRoomAsync(room);
                         }
                         //var groupMember = userService.
                         //lsMsg.Add(message);

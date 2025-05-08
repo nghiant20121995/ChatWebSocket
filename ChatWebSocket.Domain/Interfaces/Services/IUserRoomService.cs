@@ -9,6 +9,6 @@ namespace ChatWebSocket.Domain.Interfaces.Services
     public interface IUserRoomService
     {
         Task<UserRoom> AddMemberToRoomAsync(string roomId, string userId);
-        Task<List<Room>> GetLatestRoomByUserIdAsync(string userId);
+        Task<List<UserRoom>> GetLatestRoomByUserIdAsync(string userId);
     }
 }

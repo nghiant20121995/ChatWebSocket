@@ -10,6 +10,7 @@ namespace ChatWebSocket.Domain.RequestModel
         public string ReceiverId { get; set; }
         public string Content { get; set; }
         public bool IsGroup { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     }
 
     public class MessageFilterRequest

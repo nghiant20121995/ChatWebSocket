@@ -47,5 +47,11 @@ namespace ChatWebSocket.Services
             }
             return existingRoom;
         }
+
+
+        public Task UpdateRoomAsync(Room room)
+        {
+            return _roomRepository.UpdateAsync(room);
+        }
     }
 }

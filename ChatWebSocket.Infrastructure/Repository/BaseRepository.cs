@@ -6,6 +6,7 @@ using ChatWebSocket.Domain.Interfaces.Repository;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +15,8 @@ namespace ChatWebSocket.Infrastructure.Repository
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         protected readonly IDynamoDBContext _context;
-        public BaseRepository(IDynamoDBContext context) {
+        public BaseRepository(IDynamoDBContext context)
+        {
             _context = context;
         }
         public virtual Task AddAsync(T entity, CancellationToken cancellationToken = default)
@@ -69,6 +71,21 @@ namespace ChatWebSocket.Infrastructure.Repository
                 range = null;
             }
             return range;
+        }
+
+        public async Task<Dictionary<string, T>> GetByListIdsAsync(IEnumerable<string> ids, CancellationToken cancellationToken = default)
+        {
+            var batch = _context.CreateBatchGet<T>();
+
+            foreach (var key in ids)
+            {
+                batch.AddKey(key);
+            }
+
+            await batch.ExecuteAsync();
+
+            var results = batch.Results.ToDictionary(e => e.Id);
+            return results;
         }
     }
 }

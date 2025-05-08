@@ -20,7 +20,7 @@ namespace ChatWebSocket.Controllers
         }
 
         [HttpGet]
-        public async Task<BaseResponse<List<Room>>> Get([FromQuery] ConversationRequest req)
+        public async Task<BaseResponse<List<UserRoom>>> Get([FromQuery] ConversationRequest req)
         {
             var res = await _userRoomService.GetLatestRoomByUserIdAsync(req.UserId);
             return Ok(res);

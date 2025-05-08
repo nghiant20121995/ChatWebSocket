@@ -15,5 +15,8 @@ namespace ChatWebSocket.Domain.Entities
         public string UserId { get; set; }
         [DynamoDBGlobalSecondaryIndexRangeKey("CreatedDate")]
         public override DateTime CreatedDate { get; set; }
+
+        [DynamoDBIgnore]
+        public Room Room { get; set; }
     }
 }
