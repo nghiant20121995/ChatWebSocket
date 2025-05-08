@@ -17,13 +17,17 @@
             </div>
             <div class="flex navbar-config items-center justify-center">
                 <ul class="space-y-4 flex flex-col items-center">
-                    <li class="flex items-center justify-center">
+                    <li class="relative flex items-center justify-center">
                         <button class="btn-switchbar p-2 rounded-full hover:bg-gray-200 focus:outline-none" [ngClass]="{'active': sideBarType === 1}" (click)="toggleSidebar(1)">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-600" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8-1.528 0-2.957-.355-4.168-.98L3 21l1.25-3.75C3.455 15.957 3 14.528 3 13c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                             </svg>
+                            <span class="absolute top-0 right-0 transform
+                              bg-red-500 text-white text-xs rounded-full px-1.5 h-5 min-w-[1.25rem] flex items-center justify-center">
+                              3
+                            </span>
                         </button>
                         <span class="sr-only">Conversations</span>
                     </li>
