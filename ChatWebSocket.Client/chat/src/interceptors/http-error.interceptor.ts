@@ -35,7 +35,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             catchError((error: HttpErrorResponse) => {
                 if (error.status === HttpStatusCode.Unauthorized) {
                     // Redirect to the login page
-                    this.router.navigate(['/login']);
+                    window.location.href = '/login';
+                    // this.router.navigate(['/login']);
                     return throwError(() => error);
                 }
                 console.error('HTTP Error:', error);

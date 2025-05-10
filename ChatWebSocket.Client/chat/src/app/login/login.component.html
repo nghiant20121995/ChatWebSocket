@@ -1,52 +1,60 @@
+<ng-template #loading>
+  <div _ngcontent-ng-c4136954451="" class="fixed flex items-center justify-center min-h-screen" style="
+    width: 100%;
+    z-index: 1;
+    background-color: #dddddd63;
+    opacity: 1;
+">
+    <div _ngcontent-ng-c4136954451=""
+      class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+</ng-template>
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="w-full max-w-md bg-white rounded-3xl shadow-xl p-8">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-800">Sign In</h1>
-            <p class="text-gray-500 mt-2 text-sm">Welcome back! Please login to your account</p>
-        </div>
-
-        <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)" class="space-y-6" novalidate>
-            <!-- Email -->
-            <div class="relative">
-                <span class="absolute left-3 top-3 text-gray-400">
-                    <!-- Email Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M16 12l-4-4-4 4m8 0v8m-8-8v8" />
-                    </svg>
-                </span>
-                <input type="email" name="email" #email="ngModel" ngModel
-                    class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition bg-gray-50"
-                    placeholder="Email address" required />
-            </div>
-
-            <!-- Password -->
-            <div class="relative">
-                <span class="absolute left-3 top-3 text-gray-400">
-                    <!-- Lock Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 11c1.656 0 3-1.344 3-3S13.656 5 12 5 9 6.344 9 8s1.344 3 3 3zm0 2c-3.333 0-10 1.667-10 5v2h20v-2c0-3.333-6.667-5-10-5z" />
-                    </svg>
-                </span>
-                <input type="password" name="password" #password="ngModel" ngModel
-                    class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition bg-gray-50"
-                    placeholder="Password" required />
-            </div>
-
-            <!-- Button -->
-            <button type="submit"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 transform hover:scale-105">
-                Log In
-            </button>
-
-            <!-- Link -->
-            <p class="text-center text-sm text-gray-600 mt-4">
-                Don't have an account?
-                <a href="#" class="text-blue-600 hover:underline">Register</a>
-            </p>
-        </form>
+  <div class="w-full max-w-md bg-white rounded-3xl shadow-xl p-8">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-800">Sign In</h1>
+      <p class="text-gray-500 mt-2 text-sm">Welcome back! Please login to your account</p>
     </div>
+
+    <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)" class="space-y-6" novalidate>
+      <!-- Email -->
+      <div class="relative">
+        <span class="absolute left-3 top-3 text-gray-400">
+          <!-- Email Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12l-4-4-4 4m8 0v8m-8-8v8" />
+          </svg>
+        </span>
+        <input type="email" name="email" #email="ngModel" ngModel
+          class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition bg-gray-50"
+          placeholder="Email address" required />
+      </div>
+
+      <!-- Password -->
+      <div class="relative">
+        <span class="absolute left-3 top-3 text-gray-400">
+          <!-- Lock Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 11c1.656 0 3-1.344 3-3S13.656 5 12 5 9 6.344 9 8s1.344 3 3 3zm0 2c-3.333 0-10 1.667-10 5v2h20v-2c0-3.333-6.667-5-10-5z" />
+          </svg>
+        </span>
+        <input type="password" name="password" #password="ngModel" ngModel
+          class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none transition bg-gray-50"
+          placeholder="Password" required />
+      </div>
+
+      <!-- Button -->
+      <button type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 transform hover:scale-105">
+        Log In
+      </button>
+
+      <!-- Link -->
+      <p class="text-center text-sm text-gray-600 mt-4">
+        Don't have an account?
+        <a href="#" class="text-blue-600 hover:underline">Register</a>
+      </p>
+    </form>
+  </div>
 </div>
