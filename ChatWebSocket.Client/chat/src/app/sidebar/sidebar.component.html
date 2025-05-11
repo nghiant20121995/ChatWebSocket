@@ -44,14 +44,21 @@
     <div class="flex-1 flex flex-col overflow-y-auto">
 
       <!-- Chat Item -->
-      <div class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90">
-        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" />
+      <div *ngFor="let conversation of conversations" class="flex items-center space-x-4 p-2 relative hover:bg-gray-100 cursor-pointer p-90" (click)="onConversationClick(conversation)">
+        <ng-container *ngIf="conversation.Avatar; else defaultAvatar">
+          <img [src]="conversation.Avatar" class="w-10 h-10 rounded-full" />
+        </ng-container>
+        <ng-template #defaultAvatar>
+          <div class="bg-blue-500 text-white rounded-full default-avatar-panel flex items-center justify-center text-lg font-bold w-10 h-10">
+            {{conversation.FirstLettersofRoomName}}
+          </div>
+        </ng-template>
         <div class="flex-1">
           <div class="flex justify-between">
-            <span class="font-medium text-sm">Patrick Hendricks</span>
-            <span class="text-xs text-gray-400">05 min</span>
+            <span class="font-medium text-sm">{{conversation.RoomName}}</span>
+            <span class="text-xs text-gray-400">{{conversation.Room.LatestMessage?.CreatedDate | LastMinuteDate}}</span>
           </div>
-          <p class="text-sm text-gray-500 truncate">Hey! there I'm available</p>
+          <p class="text-sm text-gray-500 truncate">{{conversation.Room.LatestMessage?.Content}}</p>
         </div>
         <span
           class="absolute bg-red-500 text-white text-xs rounded-full flex items-center justify-center chat-item-notification">

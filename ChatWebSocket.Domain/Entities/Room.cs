@@ -8,5 +8,6 @@ namespace ChatWebSocket.Domain.Entities
     {
         public string RoomName { get; set; }
         public MessageRequest LatestMessage { get; set; }
+        public bool IsGroup { get; set; }
     }
 }

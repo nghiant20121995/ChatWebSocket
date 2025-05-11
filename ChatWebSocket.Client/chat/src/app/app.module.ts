@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpErrorInterceptor } from '../interceptors/http-error.interceptor';
 import { HttpClientModule } from '@angular/common/http';
+import { LastMinuteDatePipe } from '../pipes/lastMinuteDatePipe';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
     SidebarComponent,
     ChatComponent,
     MessageComponent,
-    ChatAreaComponent
+    ChatAreaComponent,
+    LastMinuteDatePipe
   ],
   imports: [
     BrowserModule,

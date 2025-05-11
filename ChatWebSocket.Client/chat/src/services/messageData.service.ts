@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from 'src/utilities/http-service';
 import { environment } from 'src/environments/environment';
-import { LoginResponseBase } from 'src/models/login-response.model';
 import { Observable } from 'rxjs';
-import { MessageFilterResponse } from 'src/models/userRoom-response.model';
+import { MessageFilterResponse } from 'src/models/messagefilter-response.model';
 
 @Injectable({
     providedIn: 'root',

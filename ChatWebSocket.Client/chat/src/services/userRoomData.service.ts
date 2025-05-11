@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from 'src/utilities/http-service';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { MessageFilterResponse } from 'src/models/userRoom-response.model';
+import { ConversationFilterResponse } from 'src/models/userRoom-response.model';
 
 @Injectable({
     providedIn: 'root',
@@ -13,7 +13,7 @@ export default class UserRoomDataService {
     constructor(private httpService: HttpService) {}
 
     // Example method to get user data
-    GetRoomByUserAsync(userId: string, FromDate: Date | null = null, ToDate: Date | null = null, SenderId: string | null = null, ReceiverId: string | null = null): Observable<MessageFilterResponse> {
+    GetRoomByUserAsync(userId: string, FromDate: Date | null = null, ToDate: Date | null = null, SenderId: string | null = null, ReceiverId: string | null = null): Observable<ConversationFilterResponse> {
         // Replace with actual implementation
         var url = `${this.apiUrl}/conversation?RoomId=${userId}`;
         if (FromDate) {
@@ -29,6 +29,6 @@ export default class UserRoomDataService {
             url += `&ReceiverId=${ReceiverId}`;
         }
 
-        return this.httpService.get<MessageFilterResponse>(url);
+        return this.httpService.get<ConversationFilterResponse>(url);
     }
 }

@@ -5,6 +5,7 @@ import { LoginResponse } from 'src/models/login-response.model';
 import Message from 'src/models/message.model';
 import { MessageFilterResponse } from 'src/models/messagefilter-response.model';
 import User from 'src/models/user.model';
+import UserRoom from 'src/models/userRoom.model';
 import ChatService from 'src/services/chat.service';
 import MessageDataService from 'src/services/messageData.service';
 import { WebSocketService } from 'src/services/websocket.service';
@@ -25,9 +26,9 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
     this.chatService.chatObservable.subscribe(this.loadReceiver);
   }
   
-  loadReceiver = (user: User) => {
-    if (user && user.Id !== this.currentUser?.Id) {
-      this.receiver = user;
+  loadReceiver = (user: User | UserRoom) => {
+    if (user.Id !== this.currentUser?.Id) {
+      this.receiver = <User>user;
       let roomId = [this.currentUser?.Id, user.Id].sort().join('_');
       this.messageDataService.GetByRoomAsync(roomId).subscribe(
         (res: MessageFilterResponse) => {
@@ -36,6 +37,10 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
           }
         }
       );
+    }
+    else if (user instanceof UserRoom) {
+      this.receiver = null;
+      this.messages = [];
     }
   }
 

@@ -18,5 +18,7 @@ namespace ChatWebSocket.Domain.Entities
 
         [DynamoDBIgnore]
         public Room Room { get; set; }
+        [DynamoDBIgnore]
+        public List<User> Members { get; set; }
     }
 }

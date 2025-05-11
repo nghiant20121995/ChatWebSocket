@@ -1,4 +1,5 @@
-﻿using ChatWebSocket.Domain.Entities;
+﻿using ChatWebSocket.Domain.Context;
+using ChatWebSocket.Domain.Entities;
 using ChatWebSocket.Domain.Interfaces.Repository;
 using ChatWebSocket.Domain.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
@@ -13,12 +14,18 @@ namespace ChatWebSocket.Services
         private readonly IConfiguration _configuration;
         private readonly IUserRoomRepository _userRoomRepository;
         private readonly IRoomRepository _roomRepository;
+        private readonly IUserRepository _userRepository;
 
-        public UserRoomService(IConfiguration configuration, IUserRoomRepository userRoomRepository, IRoomRepository roomRepository)
+        public UserRoomService(IConfiguration configuration, 
+            IUserRoomRepository userRoomRepository, 
+            IRoomRepository roomRepository, 
+            IUserRepository userRepository, 
+            ChatExecutionContext context)
         {
             _configuration = configuration;
             _userRoomRepository = userRoomRepository;
             _roomRepository = roomRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<UserRoom> AddMemberToRoomAsync(string roomId, string userId)
@@ -42,7 +49,7 @@ namespace ChatWebSocket.Services
             var userRooms = await _userRoomRepository.GetByUserIdAsync(userId);
             if (userRooms == null || userRooms.Count == 0)
             {
-                return new ();
+                return new();
             }
             var rooms = await _roomRepository.GetByListIdsAsync(userRooms.Select(x => x.Id));
             if (rooms == null || rooms.Count == 0)
@@ -55,6 +62,12 @@ namespace ChatWebSocket.Services
                 if (existingRoom != null)
                 {
                     userRoom.Room = existingRoom;
+                    if (!existingRoom.IsGroup)
+                    {
+                        var userIds = userRoom.Id.Split('_');
+                        var members = await _userRepository.GetByIdsAsync(userIds);
+                        userRoom.Members = members;
+                    }
                 }
             }
             return userRooms;

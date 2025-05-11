@@ -1,4 +1,4 @@
 import { BaseResponse } from "./base-response.model";
-import Message from "./message.model";
+import UserRoom from "./userRoom.model";
 
-export type MessageFilterResponse = BaseResponse<Array<Message>>;
+export type ConversationFilterResponse = BaseResponse<Array<UserRoom>>;

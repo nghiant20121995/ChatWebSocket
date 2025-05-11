@@ -87,5 +87,20 @@ namespace ChatWebSocket.Infrastructure.Repository
             var results = batch.Results.ToDictionary(e => e.Id);
             return results;
         }
+
+        public async Task<List<T>> GetByIdsAsync(IEnumerable<string> ids, CancellationToken cancellationToken = default)
+        {
+            var batch = _context.CreateBatchGet<T>();
+
+            foreach (var key in ids)
+            {
+                batch.AddKey(key);
+            }
+
+            await batch.ExecuteAsync();
+
+            var results = batch.Results;
+            return results;
+        }
     }
 }
