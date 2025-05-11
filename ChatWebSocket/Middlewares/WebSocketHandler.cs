@@ -56,8 +56,8 @@ namespace ChatWebSocket.Middlewares
                     {
                         var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
                         var msgObj = JsonSerializer.Deserialize<MessageRequest>(message);
-                        msgObj.SenderId = userId;
                         if (msgObj == null) throw new Exception("Message is null");
+                        msgObj.SenderId = userId;
                         if (!msgObj.IsGroup)
                         {
                             var receiver = await _userService.GetByIdAsync(msgObj.ReceiverId);
