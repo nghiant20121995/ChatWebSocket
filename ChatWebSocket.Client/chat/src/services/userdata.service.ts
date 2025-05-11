@@ -3,6 +3,7 @@ import { HttpService } from 'src/utilities/http-service';
 import { environment } from 'src/environments/environment';
 import { LoginResponseBase } from 'src/models/login-response.model';
 import { Observable } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root',
@@ -10,7 +11,7 @@ import { Observable } from 'rxjs';
 export default class UserDataService {
     private apiUrl = environment.apiUrl;
 
-    constructor(private httpService: HttpService) {}
+    constructor(private httpService: HttpService) { }
 
     // Example method to get user data
     getUserData(): any {
@@ -26,6 +27,10 @@ export default class UserDataService {
 
     login(email: string, password: string): Observable<LoginResponseBase> {
         // Use the backend URL from the environment file
-        return this.httpService.post<LoginResponseBase>(`${this.apiUrl}/login`, { email, password });
+        var header = new HttpHeaders();
+        return this.httpService.post<LoginResponseBase>(
+            `${this.apiUrl}/login`,
+            { email, password }
+        );
     }
 }

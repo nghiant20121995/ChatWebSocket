@@ -1,6 +1,7 @@
 ﻿using ChatWebSocket.Domain.Interfaces.Services;
 using ChatWebSocket.Domain.RequestModel;
 using ChatWebSocket.Domain.Response;
+using ChatWebSocket.Helper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatWebSocket.Controllers
@@ -20,6 +21,13 @@ namespace ChatWebSocket.Controllers
         public async Task<BaseResponse<LoginResponse>> Post(LoginReq req)
         {
             var res = await _userService.LoginAsync(req);
+            Response.Cookies.Append("chat-session-id", res.SessionId, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(AppServiceConfig.DayDuration)
+            });
             return Ok(res);
         }
     }

@@ -10,6 +10,11 @@ using ChatWebSocket.Domain.Interfaces.Repository;
 using ChatWebSocket.Services;
 using ChatWebSocket.Infrastructure.Repository;
 using System.Net;
+using StackExchange.Redis;
+using ChatWebSocket.Domain.Interfaces.Cache;
+using ChatWebSocket.Infrastructure.Cache;
+using ChatWebSocket.Domain.Context;
+using ChatWebSocket.Domain.Entities;
 
 namespace ChatWebSocket.Extensions
 {
@@ -91,6 +96,49 @@ namespace ChatWebSocket.Extensions
             });
 
             builder.Services.AddSingleton<IDynamoDBContext, DynamoDBContext>();
+        }
+
+        public static void AddRedis(this IHostApplicationBuilder builder)
+        {
+            builder.Services.AddSingleton<IConnectionMultiplexer>(options =>
+            {
+                return ConnectionMultiplexer.Connect(AppServiceConfig.RedisConnectionString);
+            });
+
+            builder.Services.AddScoped<ICacheClient, CacheClient>();
+        }
+
+        public static void AddContext(this IHostApplicationBuilder builder)
+        {
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<ChatExecutionContext>(sp =>
+            {
+                var nonexistentUser = new ChatExecutionContext()
+                {
+                    SessionId = string.Empty,
+                    UserId = string.Empty,
+                    FullName = string.Empty,
+                    Email = string.Empty
+                };
+                var httpContextAccessor = sp.GetRequiredService<IHttpContextAccessor>();
+                var context = httpContextAccessor.HttpContext!;
+                var sessionId = context.Request.Cookies["chat-session-id"];
+                if (string.IsNullOrEmpty(sessionId)) return nonexistentUser;
+
+                var cacheClient = context.RequestServices.GetService<ICacheClient>()!;
+                var sessionKey = string.Format(RedisKeys.UserSessionKey, sessionId);
+                var sessionCache = cacheClient.GetString(sessionKey);
+                if (string.IsNullOrEmpty(sessionCache)) return nonexistentUser;
+                
+                var user = JsonSerializer.Deserialize<User>(sessionCache)!;
+                return new ChatExecutionContext()
+                {
+                    SessionId = sessionId,
+                    UserId = user.Id,
+                    FullName = user.FullName,
+                    Email = user.Email
+                };
+            });
         }
     }
 }

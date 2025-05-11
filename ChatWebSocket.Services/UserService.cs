@@ -9,6 +9,9 @@ using ChatWebSocket.Domain.RequestModel;
 using ChatWebSocket.Helper;
 using ChatWebSocket.Domain.Interfaces.Repository;
 using System.Collections.Generic;
+using ChatWebSocket.Domain.Interfaces.Cache;
+using System.Text.Json;
+using System.Net;
 
 namespace ChatWebSocket.Services
 {
@@ -16,11 +19,13 @@ namespace ChatWebSocket.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
+        private readonly ICacheClient _cacheClient;
 
-        public UserService(IConfiguration configuration, IUserRepository userRepository)
+        public UserService(IConfiguration configuration, IUserRepository userRepository, ICacheClient cacheClient)
         {
             _configuration = configuration;
             _userRepository = userRepository;
+            _cacheClient = cacheClient;
         }
         public async Task<LoginResponse> LoginAsync(LoginReq req)
         {
@@ -28,18 +33,27 @@ namespace ChatWebSocket.Services
             if (existingUser == null) throw new Exception("User doesn't exist");
 
             // Missing Authentication step
-
             var token = JwtHandler.GenerateToken(existingUser.Email,
                 existingUser.Id,
                 AppServiceConfig.PrivateKey,
                 DateTime.UtcNow.AddDays(AppServiceConfig.DayDuration),
                 AppServiceConfig.Issuer,
                 AppServiceConfig.Audience);
+
+            var sessionId = Guid.NewGuid().ToString();
+            var serializedUser = JsonSerializer.Serialize(existingUser);
+
+            var sessionKey = string.Format(RedisKeys.UserSessionKey, sessionId);
+            // save session
+            await _cacheClient.SetStringAsync(sessionKey, serializedUser, TimeSpan.FromDays(AppServiceConfig.DayDuration));
+
+            // set cookie header
             var retVal = new LoginResponse()
             {
                 Email = existingUser.Email,
                 Token = token,
-                Id = existingUser.Id
+                Id = existingUser.Id,
+                SessionId = sessionId,
             };
             return retVal;
         }

@@ -18,5 +18,7 @@ namespace ChatWebSocket.Helper
         public static string DynamoDbHost => Configuration?.GetSection("DynamoDb:Host")?.Value;
         public static string DynamoDbAccessKey => Configuration?.GetSection("DynamoDb:AccessKey")?.Value;
         public static string DynamoDbSecretKey => Configuration?.GetSection("DynamoDb:SecretKey")?.Value;
+
+        public static string RedisConnectionString => Configuration?.GetSection("Redis:ConnectionString")?.Value;
     }
 }

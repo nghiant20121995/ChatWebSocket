@@ -9,11 +9,11 @@ export class HttpService {
     constructor(private http: HttpClient) {}
 
     get<T>(url: string, params?: HttpParams, headers?: HttpHeaders): Observable<T> {
-        return this.http.get<T>(url, { params, headers });
+        return this.http.get<T>(url, { params, headers, withCredentials: true });
     }
 
-    post<T>(url: string, body: any, headers?: HttpHeaders): Observable<T> {
-        return this.http.post<T>(url, body, { headers });
+    post<T>(url: string, body: any, headers?: HttpHeaders, withCredentials?: boolean): Observable<T> {
+        return this.http.post<T>(url, body, { headers, withCredentials: true });
     }
 
     put<T>(url: string, body: any, headers?: HttpHeaders): Observable<T> {

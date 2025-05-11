@@ -5,6 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 AppServiceConfig.Initialize(builder.Configuration);
 builder.LoadSecretKey();
 builder.ConfigServices();
+builder.AddRedis();
+builder.AddContext();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     // Disable camelCase to use PascalCase
@@ -16,6 +18,7 @@ builder.Services.AddCors((options) =>
     {
         policy.WithOrigins("http://localhost:4200")
               .AllowAnyMethod()
+              .AllowCredentials()
               .AllowAnyHeader();
     });
 });
