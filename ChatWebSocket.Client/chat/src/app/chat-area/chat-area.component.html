@@ -41,7 +41,7 @@
     </div>
 </div>
 <!-- Messages -->
-<div class="flex flex-col flex-1 overflow-y-auto p-6 space-y-3 bg-white/60 backdrop-blur-md">
+<div class="flex flex-col flex-1 overflow-y-auto p-6 space-y-3 bg-white/60 backdrop-blur-md" #messagesContainer>
     <div *ngIf="messages.length === 0" id="welcomeMessage" class="text-center text-gray-400 mt-10 text-lg">Select a
         conversation</div>
     <ng-container *ngFor="let message of messages; let i = index">

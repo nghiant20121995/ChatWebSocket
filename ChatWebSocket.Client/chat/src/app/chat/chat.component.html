@@ -43,10 +43,11 @@
                     </li>
                     <li class="flex items-center justify-center">
                         <button class="btn-switchbar p-2 rounded-full hover:bg-gray-200 focus:outline-none" [ngClass]="{'active': sideBarType === 3}" (click)="toggleSidebar(3)">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-600" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5.121 17.804A4 4 0 017 16h10a4 4 0 011.879.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <rect x="4" y="3" width="16" height="18" rx="2" fill="#EEF2FF" stroke-width="1.6"/>
+                                <circle cx="12" cy="9" r="2.5" fill="#C7D2FE" stroke-width="1"/>
+                                <path d="M7 17c0-2.21 2.239-4 5-4s5 1.79 5 4" stroke-width="1" stroke-linecap="round"/>
+                                <path d="M20 7h1.5M20 12h1.5M20 17h1.5" stroke-width="1.2" stroke-linecap="round"/>
                             </svg>
                         </button>
                         <span class="sr-only">Profile</span>

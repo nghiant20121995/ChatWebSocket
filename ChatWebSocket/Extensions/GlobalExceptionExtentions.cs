@@ -15,6 +15,7 @@ using ChatWebSocket.Domain.Interfaces.Cache;
 using ChatWebSocket.Infrastructure.Cache;
 using ChatWebSocket.Domain.Context;
 using ChatWebSocket.Domain.Entities;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ChatWebSocket.Extensions
 {
@@ -36,7 +37,7 @@ namespace ChatWebSocket.Extensions
                     logger?.LogInformation(exception, exception?.Message);
                     resp.Message = exception?.Message;
                 }
-                else if (exception is UnauthorizedAccessException)
+                else if (exception is UnauthorizedAccessException || exception is SecurityTokenExpiredException)
                 {
                     resp.Message = exception?.Message;
                     httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
@@ -77,11 +78,13 @@ namespace ChatWebSocket.Extensions
             builder.Services.AddScoped<IMessageRepository, MessageRepository>();
             builder.Services.AddScoped<IRoomRepository, RoomRepository>();
             builder.Services.AddScoped<IUserRoomRepository, UserRoomRepository>();
+            builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
             #endregion
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IMessageService, MessageService>();
             builder.Services.AddScoped<IRoomService, RoomService>();
             builder.Services.AddScoped<IUserRoomService, UserRoomService>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
             builder.Services.AddSingleton<IAmazonDynamoDB>(sp =>
             {
                 var config = new AmazonDynamoDBConfig

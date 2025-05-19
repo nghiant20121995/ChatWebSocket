@@ -18,5 +18,7 @@ namespace ChatWebSocket.Domain.Entities
         public string RoomId {  get; set; }
         [DynamoDBGlobalSecondaryIndexRangeKey("Message_Room_CreatedDate")]
         public override DateTime CreatedDate { get; set; }
+
+        public bool IsSeen { get; set; }
     }
 }

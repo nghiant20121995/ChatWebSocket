@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net.WebSockets;
 using System.Text.Json;
 using System.Text;
+using ChatWebSocket.Domain.Enum;
 
 namespace ChatWebSocket.Middlewares
 {
@@ -14,6 +15,7 @@ namespace ChatWebSocket.Middlewares
         private IRoomService? _roomService;
         private IUserRoomService? _userRoomService;
         private IMessageService? _messageService;
+        private INotificationService? _notificationService;
 
         public WebSocketHandler(RequestDelegate next)
         {
@@ -26,6 +28,7 @@ namespace ChatWebSocket.Middlewares
             _roomService = context.RequestServices.GetRequiredService<IRoomService>();
             _userRoomService = context.RequestServices.GetRequiredService<IUserRoomService>();
             _messageService = context.RequestServices.GetRequiredService<IMessageService>();
+            _notificationService = context.RequestServices.GetRequiredService<INotificationService>();
             string? token = context.Request.Query["token"];
 
             var handler = new JwtSecurityTokenHandler();
@@ -55,31 +58,36 @@ namespace ChatWebSocket.Middlewares
                     else
                     {
                         var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                        var msgObj = JsonSerializer.Deserialize<MessageRequest>(message);
-                        if (msgObj == null) throw new Exception("Message is null");
-                        msgObj.SenderId = userId;
-                        if (!msgObj.IsGroup)
+                        var eventNotif = JsonSerializer.Deserialize<WebSocketBaseMessage>(message);
+                        if (eventNotif == null) throw new Exception("Event is null");
+                        if (eventNotif.Type == WebSocketBaseMessageType.Message)
                         {
-                            var receiver = await _userService.GetByIdAsync(msgObj.ReceiverId);
-                            if (receiver == null) throw new Exception("Reciever doesn't exist");
-                            var roomIds = new List<string> { userId, receiver.Id };
-                            roomIds.Sort();
-                            var roomId = string.Join('_', roomIds);
-                            var existingRoom = WebSocketConnectionManager.GetRoomById(roomId);
-                            if (existingRoom == null)
+                            var msgObj = JsonSerializer.Deserialize<MessageRequest>(eventNotif.SerializedData);
+                            if (msgObj == null) throw new Exception("Message is null");
+                            msgObj.SenderId = userId;
+                            if (!msgObj.IsGroup)
                             {
-                                await _roomService.CreateRoomAsync(roomId, $"Direct message room for {userId} and {receiver.Id}");
-                                await _userRoomService.AddMemberToRoomAsync(roomId, userId);
-                                await _userRoomService.AddMemberToRoomAsync(roomId, receiver.Id);
-                                WebSocketConnectionManager.CreateRoomById(roomId);
+                                var receiver = await _userService.GetByIdAsync(msgObj.ReceiverId);
+                                if (receiver == null) throw new Exception("Reciever doesn't exist");
+                                var roomIds = new List<string> { userId, receiver.Id };
+                                roomIds.Sort();
+                                var roomId = string.Join('_', roomIds);
+                                var existingRoom = WebSocketConnectionManager.GetRoomById(roomId);
+                                if (existingRoom == null)
+                                {
+                                    await _roomService.CreateRoomAsync(roomId, $"Direct message room for {userId} and {receiver.Id}");
+                                    await _userRoomService.AddMemberToRoomAsync(roomId, userId);
+                                    await _userRoomService.AddMemberToRoomAsync(roomId, receiver.Id);
+                                    WebSocketConnectionManager.CreateRoomById(roomId);
+                                }
+                                WebSocketConnectionManager.AddMemberToRoom(roomId, userId);
+                                WebSocketConnectionManager.AddMemberToRoom(roomId, receiver.Id);
+                                await _messageService.CreateAsync(msgObj, userId, roomId);
+                                WebSocketConnectionManager.SendMessageToRoom(roomId, msgObj);
+                                var room = await _roomService.GetByIdAsync(roomId);
+                                room.LatestMessage = msgObj;
+                                await _roomService.UpdateRoomAsync(room);
                             }
-                            WebSocketConnectionManager.AddMemberToRoom(roomId, userId);
-                            WebSocketConnectionManager.AddMemberToRoom(roomId, receiver.Id);
-                            await _messageService.CreateAsync(msgObj, userId, roomId);
-                            WebSocketConnectionManager.SendMessageToRoom(roomId, msgObj);
-                            var room = await _roomService.GetByIdAsync(roomId);
-                            room.LatestMessage = msgObj;
-                            await _roomService.UpdateRoomAsync(room);
                         }
                         //var groupMember = userService.
                         //lsMsg.Add(message);

@@ -27,7 +27,8 @@ namespace ChatWebSocket.Services
                 Content = req.Content,
                 ReceiverId = req.ReceiverId,
                 SenderId = userId,
-                RoomId = roomId
+                RoomId = roomId,
+                IsSeen = false
             };
             return _messageRepository.AddAsync(msg);
         }

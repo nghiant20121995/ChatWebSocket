@@ -1,9 +1,16 @@
-﻿using System;
+﻿using ChatWebSocket.Domain.Enum;
+using System;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 using System.Text;
 
 namespace ChatWebSocket.Domain.RequestModel
 {
+    public class WebSocketBaseMessage
+    {
+        public WebSocketBaseMessageType Type { get; set; }
+        public string SerializedData { get; set; }
+    }
     public class MessageRequest
     {
         public string SenderId { get; set; }

@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { LoginResponse } from 'src/models/login-response.model';
 import Message from 'src/models/message.model';
 import { MessageFilterResponse } from 'src/models/messagefilter-response.model';
+import MessageRequest from 'src/models/request/message.request';
 import User from 'src/models/user.model';
 import UserRoom from 'src/models/userRoom.model';
 import ChatService from 'src/services/chat.service';
@@ -16,6 +17,7 @@ import { WebSocketService } from 'src/services/websocket.service';
   styleUrls: ['./chat-area.component.css']
 })
 export class ChatAreaComponent implements OnInit, OnDestroy {
+  @ViewChild('messagesContainer') messagesContainer!: ElementRef;
   private msgObserver?: Subscription;
   public messages: Array<Message> = [];
   public currentUser: LoginResponse | null = null;
@@ -63,13 +65,17 @@ export class ChatAreaComponent implements OnInit, OnDestroy {
     // Logic to send a message
     console.log('Send message button clicked');
     var message = messageForm.value.message;
-    if (message) {
-      this.webSocketService.sendMessage({
-        IsGroup: false,
-        Content: message,
-        ReceiverId: this.receiver?.Id,
-      });
+    if (message && this.receiver) {
+      var newMessage = new MessageRequest();
+      newMessage.SenderId = this.currentUser?.Id!;
+      newMessage.ReceiverId = this.receiver.Id;
+      newMessage.Content = message;
+      newMessage.IsGroup = false;
+      this.webSocketService.sendMessage(newMessage);
       messageForm.reset();
+      setTimeout(() => {
+        this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
+      }, 100);
     }
   }
 }
