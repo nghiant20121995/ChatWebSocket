@@ -11,7 +11,7 @@ using ChatWebSocket.Domain.Interfaces.Repository;
 using System.Collections.Generic;
 using ChatWebSocket.Domain.Interfaces.Cache;
 using System.Text.Json;
-using System.Net;
+using Microsoft.AspNet.Identity;
 
 namespace ChatWebSocket.Services
 {
@@ -31,6 +31,11 @@ namespace ChatWebSocket.Services
         {
             var existingUser = await _userRepository.GetByEmailAsync(req.Email);
             if (existingUser == null) throw new Exception("User doesn't exist");
+
+            var hasher = new PasswordHasher();
+            var result = hasher.VerifyHashedPassword(existingUser.Password, req.Password);
+            if (result == PasswordVerificationResult.Failed) throw new Exception("Wrong Password");
+
 
             // Missing Authentication step
             var token = JwtHandler.GenerateToken(existingUser.Email,

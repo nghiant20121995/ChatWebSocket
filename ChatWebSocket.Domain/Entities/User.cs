@@ -15,5 +15,7 @@ namespace ChatWebSocket.Domain.Entities
         public string PhoneNumber { get; set; }
         [DynamoDBGlobalSecondaryIndexHashKey("User_Email")]
         public string Email { get; set; }
+
+        public string Password { get; set; }
     }
 }
