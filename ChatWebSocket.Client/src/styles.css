@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -38,3 +39,17 @@
 .base-border-color {
   border-color: #f1f1f1;
 }
+
+
+.yellow-gradient-background {
+  background: linear-gradient(to bottom, #fff, #fffdb478, #73adeb94);
+}
+
+.blue-gradient-background {
+  background: linear-gradient(to bottom, #fff, #afd3ff, #477ee3ba);
+}
+
+.logo-pacifico {
+  font-family: 'Pacifico', cursive;
+}
+
