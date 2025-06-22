@@ -15,20 +15,14 @@
 }
 
 .navbar-config {
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #e7e7e7;
   flex-grow: 1;
 }
 
 .btn-switchbar svg {
+  color: #777;
   transition: color 0.1s ease;
 }
 
 .btn-switchbar.active svg {
-  color: #007bff;
-}
-
-
-.chat-bg {
-  background-color: #8992a391;
+  color: #0166d3;
 }

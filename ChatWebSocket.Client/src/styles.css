@@ -26,3 +26,15 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.base-icon-color {
+  color: #0166d3;
+}
+
+.hover-icon:hover {
+  color: #0166d3;
+}
+
+.base-border-color {
+  border-color: #f1f1f1;
+}
