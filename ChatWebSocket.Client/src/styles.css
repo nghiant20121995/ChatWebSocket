@@ -32,6 +32,10 @@
   color: #0166d3;
 }
 
+.background-color {
+  background-color: #0166d3;
+}
+
 .hover-icon:hover {
   color: #0166d3;
 }
@@ -40,7 +44,10 @@
   border-color: #f1f1f1;
 }
 
-
+.default-avatar-panel {
+    width: 3rem;
+    height: 3rem;
+}
 .yellow-gradient-background {
   background: linear-gradient(to bottom, #fff, #fffdb478, #73adeb94);
 }
