@@ -29,3 +29,7 @@
 .sidebar {
   background-color: #dbdcdd2b;
 }
+.logo {
+  border-radius: 15px;
+  border: 3px solid #D8B897;
+}
