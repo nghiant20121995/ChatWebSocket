@@ -1,0 +1,8 @@
+﻿{
+  "region": "ap-southeast-1",
+  "function-name": "ChatWebSocketApp",
+  "framework": "net8.0",
+  "configuration": "Release",
+  "package-type": "Zip",
+  "function-handler": "ChatWebSocket::ChatWebSocket.EntryPoint::FunctionHandlerAsync"
+}

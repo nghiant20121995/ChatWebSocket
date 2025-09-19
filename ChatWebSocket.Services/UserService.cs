@@ -33,6 +33,11 @@ namespace ChatWebSocket.Services
             if (existingUser == null) throw new Exception("User doesn't exist");
 
             var hasher = new PasswordHasher();
+            if (string.IsNullOrEmpty(existingUser.Password))
+            {
+                existingUser.Password = hasher.HashPassword(req.Password);
+                await _userRepository.UpdateAsync(existingUser);
+            }
             var result = hasher.VerifyHashedPassword(existingUser.Password, req.Password);
             if (result == PasswordVerificationResult.Failed) throw new Exception("Wrong Password");
 

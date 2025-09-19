@@ -28,5 +28,13 @@ namespace ChatWebSocket.Controllers
             var res = await _userRoomService.GetLatestRoomByUserIdAsync(_context.UserId);
             return Ok(res);
         }
+
+
+        [HttpGet]
+        public async Task<BaseResponse<List<UserRoom>>> Post([FromQuery] ConversationRequest req)
+        {
+            var res = await _userRoomService.GetLatestRoomByUserIdAsync(_context.UserId);
+            return Ok(res);
+        }
     }
 }
