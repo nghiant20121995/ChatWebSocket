@@ -43,5 +43,4 @@ app.Map("/ws", wsApp =>
 
 app.MapControllers();
 //app.UseCors("AllowAll");
-
-await app.RunAsync();
+app.Run();

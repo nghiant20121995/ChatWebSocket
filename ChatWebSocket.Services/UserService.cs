@@ -11,7 +11,7 @@ using ChatWebSocket.Domain.Interfaces.Repository;
 using System.Collections.Generic;
 using ChatWebSocket.Domain.Interfaces.Cache;
 using System.Text.Json;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace ChatWebSocket.Services
 {
@@ -21,24 +21,18 @@ namespace ChatWebSocket.Services
         private readonly IUserRepository _userRepository;
         private readonly ICacheClient _cacheClient;
 
-        public UserService(IConfiguration configuration, IUserRepository userRepository, ICacheClient cacheClient)
+        public UserService(IConfiguration configuration, IUserRepository userRepository)
         {
             _configuration = configuration;
             _userRepository = userRepository;
-            _cacheClient = cacheClient;
         }
         public async Task<LoginResponse> LoginAsync(LoginReq req)
         {
             var existingUser = await _userRepository.GetByEmailAsync(req.Email);
             if (existingUser == null) throw new Exception("User doesn't exist");
 
-            var hasher = new PasswordHasher();
-            if (string.IsNullOrEmpty(existingUser.Password))
-            {
-                existingUser.Password = hasher.HashPassword(req.Password);
-                await _userRepository.UpdateAsync(existingUser);
-            }
-            var result = hasher.VerifyHashedPassword(existingUser.Password, req.Password);
+            var hasher = new PasswordHasher<User>();
+            var result = hasher.VerifyHashedPassword(existingUser, existingUser.Password, req.Password);
             if (result == PasswordVerificationResult.Failed) throw new Exception("Wrong Password");
 
 
@@ -54,9 +48,6 @@ namespace ChatWebSocket.Services
             var serializedUser = JsonSerializer.Serialize(existingUser);
 
             var sessionKey = string.Format(RedisKeys.UserSessionKey, sessionId);
-            // save session
-            await _cacheClient.SetStringAsync(sessionKey, serializedUser, TimeSpan.FromDays(AppServiceConfig.DayDuration));
-
             // set cookie header
             var retVal = new LoginResponse()
             {

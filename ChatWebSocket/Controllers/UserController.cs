@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChatWebSocket.Controllers
 {
-    [Authenticate]
+    //[Authenticate]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : BaseController

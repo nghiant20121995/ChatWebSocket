@@ -1,15 +1,11 @@
 ﻿using Amazon.Lambda.AspNetCoreServer;
 
-namespace ChatWebSocket
+namespace ChatWebSocket;
+
+public class EntryPoint : APIGatewayHttpApiV2ProxyFunction
 {
-    public class EntryPoint : APIGatewayProxyFunction
+    protected override void Init(IWebHostBuilder builder)
     {
-        protected override void Init(IWebHostBuilder builder)
-        {
-            builder.ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<LambdaStartup>();
-            });
-        }
+        builder.UseStartup<LambdaStartup>();
     }
 }

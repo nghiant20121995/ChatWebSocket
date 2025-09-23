@@ -14,7 +14,7 @@ namespace ChatWebSocket.Controllers
         [HttpGet]
         public string Get()
         {
-            return "pong";
+            return "pong 2";
         }
     }
 }
