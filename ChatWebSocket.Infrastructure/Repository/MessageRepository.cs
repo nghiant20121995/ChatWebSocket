@@ -1,6 +1,7 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using ChatWebSocket.Domain.Entities;
+using ChatWebSocket.Domain.Interfaces;
 using ChatWebSocket.Domain.Interfaces.Repository;
 using ChatWebSocket.Domain.RequestModel;
 using System;
@@ -14,7 +15,7 @@ namespace ChatWebSocket.Infrastructure.Repository
 {
     public class MessageRepository : BaseRepository<Message>, IMessageRepository
     {
-        public MessageRepository(IDynamoDBContext context) : base(context)
+        public MessageRepository(IDbNoSQLContext context) : base(context)
         {
         }
 

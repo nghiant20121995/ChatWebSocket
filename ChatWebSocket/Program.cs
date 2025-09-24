@@ -26,19 +26,17 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 //});
 
 var app = builder.Build();
-//app.UseWebSockets();
-
 
 app.UseExceptionHandler(builder =>
 {
     builder.UseGlobalExceptionProcess();
 });
 
-
-app.Map("/ws", wsApp =>
+app.UseWhen((context) => context.Request.Path.Equals("/ws"), appBuilder =>
 {
-    wsApp.UseMiddleware<WebSocketAuthenticate>();
-    wsApp.UseMiddleware<WebSocketHandler>();
+    appBuilder.UseWebSockets();
+    appBuilder.UseMiddleware<WebSocketAuthentication>();
+    appBuilder.UseMiddleware<WebSocketHandler>();
 });
 
 app.MapControllers();

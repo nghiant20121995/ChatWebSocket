@@ -3,11 +3,11 @@ using ChatWebSocketHelper;
 
 namespace ChatWebSocket.Middlewares
 {
-    public class WebSocketAuthenticate
+    public class WebSocketAuthentication
     {
         private readonly RequestDelegate _next;
 
-        public WebSocketAuthenticate(RequestDelegate next)
+        public WebSocketAuthentication(RequestDelegate next)
         {
             _next = next;
         }

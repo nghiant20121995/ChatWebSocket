@@ -51,7 +51,8 @@ namespace ChatWebSocket.Services
             {
                 return new();
             }
-            var rooms = await _roomRepository.GetByListIdsAsync(userRooms.Select(x => x.Id));
+            var lstRoom = await _roomRepository.GetByIdsAsync(userRooms.Select(x => x.Id));
+            var rooms = lstRoom.ToDictionary(e => e.Id);
             if (rooms == null || rooms.Count == 0)
             {
                 return new();
