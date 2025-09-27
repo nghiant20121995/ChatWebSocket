@@ -35,18 +35,19 @@ namespace ChatWebSocket.Infrastructure.Repository
                 IndexName = "Message_Room_CreatedDate",
                 QueryFilter = filters
             };
+            return null;
 
-            var range = GetDateRange(req.FromDate, req.ToDate);
-            AsyncSearch<Message> query;
-            if (range != null)
-            {
-                query = _context.QueryAsync<Message>(req.RoomId, QueryOperator.Between, range, config);
-            }
-            else
-            {
-                query = _context.QueryAsync<Message>(req.RoomId, config);
-            }
-            return query.GetNextSetAsync(cancellationToken);
+            //var range = GetDateRange(req.FromDate, req.ToDate);
+            //AsyncSearch<Message> query;
+            //if (range != null)
+            //{
+            //    query = _context.QueryAsync<Message>(req.RoomId, QueryOperator.Between, range, config);
+            //}
+            //else
+            //{
+            //    query = _context.QueryAsync<Message>(req.RoomId, config);
+            //}
+            //return query.GetNextSetAsync(cancellationToken);
         }
     }
 }

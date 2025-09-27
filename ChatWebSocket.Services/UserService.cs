@@ -73,7 +73,7 @@ namespace ChatWebSocket.Services
 
         public async Task<List<User>> GetAllAsync(UserFilterReq req)
         {
-            return await _userRepository.GetAllAsync(req);
+            return await _userRepository.GetAllAsync();
         }
     }
 }

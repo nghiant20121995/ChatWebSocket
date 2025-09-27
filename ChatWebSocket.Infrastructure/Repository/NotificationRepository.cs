@@ -14,7 +14,7 @@ namespace ChatWebSocket.Infrastructure.Repository
 {
     public class NotificationRepository : BaseRepository<Notification>, INotificationRepository
     {
-        public NotificationRepository(IDynamoDBContext context) : base(context)
+        public NotificationRepository(IDbNoSQLContext context) : base(context)
         {
         }
     }

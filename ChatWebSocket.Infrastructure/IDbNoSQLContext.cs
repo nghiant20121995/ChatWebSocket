@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ChatWebSocket.Domain.Interfaces
+namespace ChatWebSocket.Infrastructure
 {
     public interface IDbNoSQLContext
     {

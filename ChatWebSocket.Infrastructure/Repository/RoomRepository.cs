@@ -6,7 +6,7 @@ namespace ChatWebSocket.Infrastructure.Repository
 {
     public class RoomRepository : BaseRepository<Room>, IRoomRepository
     {
-        public RoomRepository(IDynamoDBContext context) : base(context)
+        public RoomRepository(IDbNoSQLContext context) : base(context)
         {
         }
     }

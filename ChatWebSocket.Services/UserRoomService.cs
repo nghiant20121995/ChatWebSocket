@@ -30,7 +30,8 @@ namespace ChatWebSocket.Services
 
         public async Task<UserRoom> AddMemberToRoomAsync(string roomId, string userId)
         {
-            var currentUserRoom = await _userRoomRepository.GetByIdAsync(roomId, userId);
+            //var currentUserRoom = await _userRoomRepository.GetByIdAsync(roomId, userId);
+            var currentUserRoom = new UserRoom();
             if (currentUserRoom == null)
             {
                 var newUserRoom = new UserRoom()

@@ -16,6 +16,9 @@ using ChatWebSocket.Infrastructure.Cache;
 using ChatWebSocket.Domain.Context;
 using ChatWebSocket.Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
+using ChatWebSocket.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace ChatWebSocket.Extensions
 {
@@ -52,69 +55,66 @@ namespace ChatWebSocket.Extensions
             });
         }
 
-        public static void LoadSecretKey(this IHostApplicationBuilder builder)
+        public static void AddConfig(this IHostApplicationBuilder builder)
         {
-            var configuration = builder.Configuration;
-            var jwtSection = configuration.GetSection("Jwt");
-            if (jwtSection != null)
-            {
-                var privateKey = File.ReadAllText(jwtSection?.GetSection("PrivateKeyPath")?.Value ?? string.Empty);
-                if (!string.IsNullOrEmpty(privateKey))
-                {
-                    configuration["Jwt:PrivateKey"] = privateKey;
-                }
-                var publicKey = File.ReadAllText(jwtSection?.GetSection("PublicKeyPath")?.Value ?? string.Empty);
-                if (!string.IsNullOrEmpty(publicKey))
-                {
-                    configuration["Jwt:PublicKey"] = publicKey;
-                }
-            }
+            builder.Services.Configure<NoSQLDbConfiguration>(builder.Configuration.GetSection(nameof(NoSQLDbConfiguration)));
+            builder.Services.Configure<RedisConfig>(builder.Configuration.GetSection(nameof(RedisConfig)));
         }
 
-        public static void ConfigServices(this IHostApplicationBuilder builder)
+        public static void AddRepositories(this IServiceCollection serviceCollection)
         {
-            #region repository
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IMessageRepository, MessageRepository>();
-            builder.Services.AddScoped<IRoomRepository, RoomRepository>();
-            builder.Services.AddScoped<IUserRoomRepository, UserRoomRepository>();
-            builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
-            #endregion
-            builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<IMessageService, MessageService>();
-            builder.Services.AddScoped<IRoomService, RoomService>();
-            builder.Services.AddScoped<IUserRoomService, UserRoomService>();
-            builder.Services.AddScoped<INotificationService, NotificationService>();
-            builder.Services.AddSingleton<IAmazonDynamoDB>(sp =>
+            serviceCollection.AddScoped<IUserRepository, UserRepository>();
+            serviceCollection.AddScoped<IMessageRepository, MessageRepository>();
+            serviceCollection.AddScoped<IRoomRepository, RoomRepository>();
+            serviceCollection.AddScoped<IUserRoomRepository, UserRoomRepository>();
+            serviceCollection.AddScoped<INotificationRepository, NotificationRepository>();
+        }
+
+        public static void AddServices(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddScoped<IUserService, UserService>();
+            serviceCollection.AddScoped<IMessageService, MessageService>();
+            serviceCollection.AddScoped<IRoomService, RoomService>();
+            serviceCollection.AddScoped<IUserRoomService, UserRoomService>();
+            serviceCollection.AddScoped<INotificationService, NotificationService>();
+        }
+
+        public static void AddDbContext(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddScoped<IAmazonDynamoDB>(provider =>
             {
+                var dbConfig = provider.GetRequiredService<IOptions<NoSQLDbConfiguration>>().Value;
                 var config = new AmazonDynamoDBConfig
                 {
-                    ServiceURL = AppServiceConfig.DynamoDbHost, // for local DynamoDB
+                    ServiceURL = dbConfig.HostName, // for local DynamoDB
+                    Timeout = TimeSpan.FromSeconds(20)
                 };
 
                 return new AmazonDynamoDBClient(
-                    new Amazon.Runtime.BasicAWSCredentials(AppServiceConfig.DynamoDbAccessKey, AppServiceConfig.DynamoDbSecretKey),
-                    config
+                    new Amazon.Runtime.BasicAWSCredentials(dbConfig.AccessKey, dbConfig.SecretKey),
+                config
                 );
             });
 
-            builder.Services.AddSingleton<IDynamoDBContext, DynamoDBContext>();
+            serviceCollection.AddScoped<IDynamoDBContext, DynamoDBContext>();
+            serviceCollection.AddScoped<IDbNoSQLContext, DynamoContext>();
         }
 
-        public static void AddRedis(this IHostApplicationBuilder builder)
+        public static void AddCache(this IServiceCollection serviceCollection)
         {
-            builder.Services.AddSingleton<IConnectionMultiplexer>(options =>
+            serviceCollection.AddSingleton<IConnectionMultiplexer>(provider =>
             {
-                return ConnectionMultiplexer.Connect(AppServiceConfig.RedisConnectionString);
+                var configuration = provider.GetRequiredService<IOptions<RedisConfig>>();
+                return ConnectionMultiplexer.Connect(configuration.Value.ConnectionString);
             });
 
-            builder.Services.AddScoped<ICacheClient, CacheClient>();
+            serviceCollection.AddScoped<ICacheClient, CacheClient>();
         }
 
-        public static void AddContext(this IHostApplicationBuilder builder)
+        public static void AddExecutionContext(this IServiceCollection serviceCollection)
         {
-            builder.Services.AddHttpContextAccessor();
-            builder.Services.AddScoped<ChatExecutionContext>(sp =>
+            serviceCollection.AddHttpContextAccessor();
+            serviceCollection.AddScoped(sp =>
             {
                 var nonexistentUser = new ChatExecutionContext()
                 {

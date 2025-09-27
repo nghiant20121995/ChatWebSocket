@@ -1,29 +1,28 @@
-using ChatWebSocket.Helper;
 using ChatWebSocket.Middlewares;
 using ChatWebSocket.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
-//AppServiceConfig.Initialize(builder.Configuration);
-//builder.LoadSecretKey();
-//builder.ConfigServices();
-//builder.AddRedis();
-//builder.AddContext();
+builder.AddConfig();
+builder.Services.AddCache();
+builder.Services.AddServices();
+builder.Services.AddDbContext();
+builder.Services.AddRepositories();
+builder.Services.AddExecutionContext();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
-    // Disable camelCase to use PascalCase
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
 });
-//builder.Services.AddCors((options) =>
-//{
-//    options.AddPolicy("AllowAll", policy =>
-//    {
-//        policy.WithOrigins("http://localhost:4200")
-//              .AllowAnyMethod()
-//              .AllowCredentials()
-//              .AllowAnyHeader();
-//    });
-//});
+builder.Services.AddCors((options) =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyMethod()
+              .AllowCredentials()
+              .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 

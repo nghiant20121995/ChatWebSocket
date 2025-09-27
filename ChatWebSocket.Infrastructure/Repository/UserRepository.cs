@@ -11,20 +11,21 @@ namespace ChatWebSocket.Infrastructure.Repository
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        public UserRepository(IDynamoDBContext context) : base(context)
+        public UserRepository(IDbNoSQLContext context) : base(context)
         {
         }
 
         public async Task<User> GetByEmailAsync(string email)
         {
-            var query = _context.QueryAsync<User>(email,
-                new DynamoDBOperationConfig
-                {
-                    IndexName = "User_Email"
-                }
-            );
-            var users = await query.GetNextSetAsync();
-            return users.FirstOrDefault();
+            return null;
+            //var query = _context.QueryAsync<User>(email,
+            //    new DynamoDBOperationConfig
+            //    {
+            //        IndexName = "User_Email"
+            //    }
+            //);
+            //var users = await query.GetNextSetAsync();
+            //return users.FirstOrDefault();
         }
 
         public Task<List<User>> GetAllAsync(UserFilterReq req, CancellationToken cancellationToken = default)
@@ -39,9 +40,10 @@ namespace ChatWebSocket.Infrastructure.Repository
                     IndexName = "User_FullName",
                 };
             }
+            return GetAllAsync(cancellationToken);
             // Scan all items
-            var query = _context.ScanAsync<User>(filters, config);
-            return query.GetNextSetAsync(cancellationToken);
+            //var query = _context.ScanAsync<User>(filters, config);
+            //return query.GetNextSetAsync(cancellationToken);
         }
     }
 }
