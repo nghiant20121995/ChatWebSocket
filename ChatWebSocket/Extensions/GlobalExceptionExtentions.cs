@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using ChatWebSocket.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Security.Claims;
 
 namespace ChatWebSocket.Extensions
 {
@@ -116,30 +117,14 @@ namespace ChatWebSocket.Extensions
             serviceCollection.AddHttpContextAccessor();
             serviceCollection.AddScoped(sp =>
             {
-                var nonexistentUser = new ChatExecutionContext()
-                {
-                    SessionId = string.Empty,
-                    UserId = string.Empty,
-                    FullName = string.Empty,
-                    Email = string.Empty
-                };
                 var httpContextAccessor = sp.GetRequiredService<IHttpContextAccessor>();
                 var context = httpContextAccessor.HttpContext!;
-                var sessionId = context.Request.Cookies["chat-session-id"];
-                if (string.IsNullOrEmpty(sessionId)) return nonexistentUser;
-
-                var cacheClient = context.RequestServices.GetService<ICacheClient>()!;
-                var sessionKey = string.Format(RedisKeys.UserSessionKey, sessionId);
-                var sessionCache = cacheClient.GetString(sessionKey);
-                if (string.IsNullOrEmpty(sessionCache)) return nonexistentUser;
-                
-                var user = JsonSerializer.Deserialize<User>(sessionCache)!;
-                return new ChatExecutionContext()
+                var user = context.User;
+                return new ChatExecutionContext
                 {
-                    SessionId = sessionId,
-                    UserId = user.Id,
-                    FullName = user.FullName,
-                    Email = user.Email
+                    UserId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value,
+                    FullName = user.FindFirst("FullName")?.Value ?? user.Identity?.Name,
+                    Email = user.FindFirst(ClaimTypes.Email)?.Value
                 };
             });
         }
