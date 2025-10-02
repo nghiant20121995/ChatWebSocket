@@ -28,7 +28,7 @@ var app = builder.Build();
 
 app.UseExceptionHandler(builder =>
 {
-    builder.UseGlobalExceptionProcess();
+    builder.UseMiddleware<GlobalExceptionHandler>();
 });
 
 app.UseWhen((context) => context.Request.Path.Equals("/ws"), appBuilder =>
@@ -39,5 +39,5 @@ app.UseWhen((context) => context.Request.Path.Equals("/ws"), appBuilder =>
 });
 
 app.MapControllers();
-//app.UseCors("AllowAll");
+app.UseCors("AllowAll");
 app.Run();

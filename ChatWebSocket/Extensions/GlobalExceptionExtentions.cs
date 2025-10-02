@@ -25,37 +25,6 @@ namespace ChatWebSocket.Extensions
 {
     public static class GlobalExceptionExtentions
     {
-        public static void UseGlobalExceptionProcess(this IApplicationBuilder applicationBuilder)
-        {
-            applicationBuilder.Run(async (httpContext) =>
-            {
-                var logger = httpContext.RequestServices.GetService<ILogger>();
-                var exceptionFeature = httpContext.Features.Get<IExceptionHandlerFeature>();
-                var exception = exceptionFeature?.Error;
-
-                var resp = new BaseResponse<object>();
-                resp.Code = -1;
-
-                if (exception is ValidateException)
-                {
-                    logger?.LogInformation(exception, exception?.Message);
-                    resp.Message = exception?.Message;
-                }
-                else if (exception is UnauthorizedAccessException || exception is SecurityTokenExpiredException)
-                {
-                    resp.Message = exception?.Message;
-                    httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                }
-                else 
-                {
-                    logger?.LogError(exception, exception?.Message);
-                    resp.Message = "Something went wrong. Please try again!";
-                }
-                var jsonRes = JsonSerializer.Serialize(resp);
-                await httpContext.Response.WriteAsync(jsonRes);
-            });
-        }
-
         public static void AddConfig(this IHostApplicationBuilder builder)
         {
             builder.Services.Configure<NoSQLDbConfiguration>(builder.Configuration.GetSection(nameof(NoSQLDbConfiguration)));
@@ -88,7 +57,7 @@ namespace ChatWebSocket.Extensions
                 var config = new AmazonDynamoDBConfig
                 {
                     ServiceURL = dbConfig.HostName, // for local DynamoDB
-                    Timeout = TimeSpan.FromSeconds(20)
+                    Timeout = TimeSpan.FromSeconds(5)
                 };
 
                 return new AmazonDynamoDBClient(
